@@ -19,12 +19,12 @@ public class DomainElement {
 
     @Override
     public int hashCode() {
-        return super.hashCode(); // TODO:
+        return toString().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj); // TODO:
+        return toString().equals(obj.toString());
     }
 
     @Override

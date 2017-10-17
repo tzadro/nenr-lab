@@ -1,6 +1,6 @@
 package hr.fer.tzadro.nenr.lab1;
 
-public interface IDomain extends Iterable {
+public interface IDomain extends Iterable<DomainElement> {
     int getCardinality();
     IDomain getComponent(int component);
     int getNumberOfComponents();
