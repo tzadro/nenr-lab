@@ -1,6 +1,7 @@
 package hr.fer.tzadro.nenr.lab1.zad1;
 
 public class Main {
+
     public static void main(String[] args) {
         IDomain d1 = Domain.intRange(0, 5); // {0,1,2,3,4}
         Debug.print(d1, "Elementi domene d1:");
@@ -14,7 +15,7 @@ public class Main {
         System.out.println(d3.elementForIndex(0));
         System.out.println(d3.elementForIndex(5));
         System.out.println(d3.elementForIndex(14));
-        System.out.println(d3.indexOfElement(DomainElement.of(new int[]{4, 1})));
+        System.out.println(d3.indexOfElement(DomainElement.of(4, 1)));
     }
 }
 

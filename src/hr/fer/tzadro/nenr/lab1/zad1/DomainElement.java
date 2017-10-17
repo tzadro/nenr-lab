@@ -29,10 +29,22 @@ public class DomainElement {
 
     @Override
     public String toString() {
+        if (getNumberOfComponents() == 1)
+            return Integer.toString(values[0]);
+
         return Arrays.toString(values); // TODO: [ into (
     }
 
     public static DomainElement of(int[] values) {
         return new DomainElement(values);
+    }
+
+    public static DomainElement of(int value) {
+        return of(new int[]{value});
+    }
+
+
+    public static DomainElement of(int value1, int value2) {
+        return of(new int[]{value1, value2});
     }
 }
