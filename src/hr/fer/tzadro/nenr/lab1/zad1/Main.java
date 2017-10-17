@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab1;
+package hr.fer.tzadro.nenr.lab1.zad1;
 
 public class Main {
     public static void main(String[] args) {

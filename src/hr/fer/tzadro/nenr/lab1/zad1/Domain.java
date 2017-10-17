@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab1;
+package hr.fer.tzadro.nenr.lab1.zad1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
