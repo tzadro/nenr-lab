@@ -14,7 +14,7 @@ public class Main {
         System.out.println(d3.elementForIndex(0));
         System.out.println(d3.elementForIndex(5));
         System.out.println(d3.elementForIndex(14));
-        System.out.println(d3.indexOfElement(DomainElement.of(4, 1)));
+        System.out.println(d3.indexOfElement(DomainElement.of(new int[]{4, 1})));
     }
 }
 

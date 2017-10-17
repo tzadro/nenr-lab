@@ -1,7 +1,5 @@
 package hr.fer.tzadro.nenr.lab1;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.Iterator;
 import java.util.stream.IntStream;
 
@@ -15,6 +13,22 @@ public class SimpleDomain extends Domain {
     }
 
     @Override
+    public int indexOfElement(DomainElement element) {
+        if (element.getNumberOfComponents() != getNumberOfComponents())
+            throw new IllegalArgumentException("Number of components not same.");
+
+        if (element.getComponentValue(0) < first && element.getComponentValue(0) >= last)
+            throw new IllegalArgumentException("Out of bounds.");
+
+        return element.getComponentValue(0) - first;
+    }
+
+    @Override
+    public DomainElement elementForIndex(int index) {
+        return new DomainElement(new int[]{first + index});
+    }
+
+    @Override
     public int getCardinality() {
         return last - first;
     }
@@ -25,6 +39,11 @@ public class SimpleDomain extends Domain {
             throw new IllegalArgumentException("Out of range.");
 
         return this;
+    }
+
+    @Override
+    public IDomain[] getComponents() {
+        return new IDomain[]{this};
     }
 
     @Override
