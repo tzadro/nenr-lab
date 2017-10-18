@@ -25,6 +25,9 @@ public class SimpleDomain extends Domain {
 
     @Override
     public DomainElement elementForIndex(int index) {
+        if (first + index >= last)
+            throw new IllegalArgumentException("Out of bounds.");
+
         return new DomainElement(new int[]{first + index});
     }
 

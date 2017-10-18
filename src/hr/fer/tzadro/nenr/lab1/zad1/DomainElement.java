@@ -32,7 +32,7 @@ public class DomainElement {
         if (getNumberOfComponents() == 1)
             return Integer.toString(values[0]);
 
-        return Arrays.toString(values); // TODO: [ into (
+        return Arrays.toString(values); // todo: [ into (
     }
 
     public static DomainElement of(int[] values) {
