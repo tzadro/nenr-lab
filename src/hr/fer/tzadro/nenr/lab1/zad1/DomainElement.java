@@ -1,6 +1,8 @@
 package hr.fer.tzadro.nenr.lab1.zad1;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class DomainElement {
     private int[] values;
@@ -29,10 +31,9 @@ public class DomainElement {
 
     @Override
     public String toString() {
-        if (getNumberOfComponents() == 1)
-            return Integer.toString(values[0]);
-
-        return Arrays.toString(values); // todo: [ into (
+        return "(" + IntStream.range(0, getNumberOfComponents())
+                              .mapToObj(i -> Integer.toString(getComponentValue(i)))
+                              .collect(Collectors.joining(", ")) + ")";
     }
 
     public static DomainElement of(int[] values) {

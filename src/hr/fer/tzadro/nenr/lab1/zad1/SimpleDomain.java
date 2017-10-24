@@ -1,6 +1,7 @@
 package hr.fer.tzadro.nenr.lab1.zad1;
 
 import java.util.Iterator;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SimpleDomain extends Domain {
@@ -67,5 +68,12 @@ public class SimpleDomain extends Domain {
 
     public int getLast() {
         return last;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + IntStream.range(first, last)
+                              .mapToObj(e -> Integer.toString(e))
+                              .collect(Collectors.joining(", ")) + "}";
     }
 }

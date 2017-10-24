@@ -18,7 +18,8 @@ public class Operations {
     }
 
     public static IFuzzySet binaryOperation(IFuzzySet set1, IFuzzySet set2, IBinaryFunction function) {
-        // todo: only sets with same domains supported
+        if (!set1.getDomain().toString().equals(set2.getDomain().toString()))
+            throw new IllegalArgumentException("Only sets with same domains supported.");
 
         MutableFuzzySet newSet = new MutableFuzzySet(set1.getDomain());
 

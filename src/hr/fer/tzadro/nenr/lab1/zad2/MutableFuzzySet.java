@@ -24,7 +24,6 @@ public class MutableFuzzySet implements IFuzzySet {
 
     public MutableFuzzySet set(DomainElement element, double mu) {
         memberships[domain.indexOfElement(element)] = mu;
-
         return this;
     }
 }

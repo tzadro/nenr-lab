@@ -2,6 +2,7 @@ package hr.fer.tzadro.nenr.lab1.zad1;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CompositeDomain extends Domain {
@@ -17,7 +18,7 @@ public class CompositeDomain extends Domain {
             throw new IllegalArgumentException("Number of components not same.");
 
         return IntStream.range(0, getNumberOfComponents())
-                        .map(i -> element.getComponentValue(i) * recursiveSize(i + 1))
+                        .map(i -> components[i].indexOfElement(DomainElement.of(element.getComponentValue(i))) * recursiveSize(i + 1))
                         .sum();
     }
 
@@ -75,6 +76,13 @@ public class CompositeDomain extends Domain {
     @Override
     public int getNumberOfComponents() {
         return components.length;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + IntStream.range(0, getCardinality())
+                .mapToObj(i -> elementForIndex(i).toString())
+                .collect(Collectors.joining(", ")) + "}";
     }
 
     private int recursiveSize(int from) {
