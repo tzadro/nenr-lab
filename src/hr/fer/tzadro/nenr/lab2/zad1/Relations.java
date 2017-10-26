@@ -5,14 +5,10 @@ import hr.fer.tzadro.nenr.lab1.zad1.DomainElement;
 import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.MutableFuzzySet;
-import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
-import hr.fer.tzadro.nenr.lab1.zad3.Operations;
-
-import static hr.fer.tzadro.nenr.lab1.zad3.Operations.binaryOperation;
 
 public class Relations {
 
-    public static boolean isUtimesURelation(IFuzzySet relation) {
+    public static boolean isUTimesURelation(IFuzzySet relation) {
         assert2D(relation);
 
         IDomain domain = relation.getDomain();
@@ -22,7 +18,8 @@ public class Relations {
     }
 
     public static boolean isSymmetric(IFuzzySet relation) {
-        assertUtimeURelation(relation);
+        assertUTimesURelation(relation);
+
         int i, j;
 
         for (DomainElement element : relation.getDomain()) {
@@ -41,7 +38,7 @@ public class Relations {
     }
 
     public static boolean isReflexive(IFuzzySet relation) {
-        assertUtimeURelation(relation);
+        assertUTimesURelation(relation);
         int i, j;
 
         for (DomainElement element : relation.getDomain()) {
@@ -56,32 +53,16 @@ public class Relations {
     }
 
     public static boolean isMaxMinTransitive(IFuzzySet relation) {
-        assertUtimeURelation(relation);
+        assertUTimesURelation(relation);
 
         IDomain domain = relation.getDomain();
         IDomain component = domain.getComponent(0);
 
-        DomainElement leftElement, rightElement;
-        double temp, mu, muA, muB;
-        for (DomainElement domainElement : domain) {
-            mu = 0;
+        double mu;
+        for (DomainElement element : domain) {
+            mu = findMaxMin(element, component, relation, relation);
 
-            for (DomainElement componentElement : component) {
-                leftElement = DomainElement.of(domainElement.getComponentValue(0), componentElement.getComponentValue(0));
-                rightElement = DomainElement.of(componentElement.getComponentValue(0), domainElement.getComponentValue(1));
-
-                muA = relation.getValueAt(leftElement);
-                muB= relation.getValueAt(rightElement);
-                if (muA > muB)
-                    temp = muB;
-                else
-                    temp = muA;
-
-                if (temp > mu)
-                    mu = temp;
-            }
-
-            if (relation.getValueAt(domainElement) < mu)
+            if (relation.getValueAt(element) < mu)
                 return false;
         }
         return true;
@@ -95,34 +76,16 @@ public class Relations {
         IDomain domain1 = relation1.getDomain();
         IDomain domain2 = relation2.getDomain();
 
-        IDomain left = domain1.getComponent(0);
-        IDomain middle = domain1.getComponent(1);
-        IDomain right = domain2.getComponent(1);
+        IDomain leftComponent = domain1.getComponent(0);
+        IDomain middleComponent = domain1.getComponent(1);
+        IDomain rightComponent = domain2.getComponent(1);
 
-        IDomain compositeDomain = Domain.combine(left, right);
+        IDomain compositeDomain = Domain.combine(leftComponent, rightComponent);
         MutableFuzzySet composite = new MutableFuzzySet(compositeDomain);
 
-        DomainElement leftElement, rightElement;
-        double mu, muA, muB, temp;
+        double mu;
         for (DomainElement compositeElement : compositeDomain) {
-            mu = 0;
-
-            for (DomainElement middleElement : middle) {
-                leftElement = DomainElement.of(compositeElement.getComponentValue(0), middleElement.getComponentValue(0));
-                rightElement = DomainElement.of(middleElement.getComponentValue(0), compositeElement.getComponentValue(1));
-
-                // temp = relation1.getValueAt(leftElement) * relation2.getValueAt(rightElement);
-                muA = relation1.getValueAt(leftElement);
-                muB= relation2.getValueAt(rightElement);
-                if (muA > muB)
-                    temp = muB;
-                else
-                    temp = muA;
-
-                if (temp > mu)
-                    mu = temp;
-            }
-
+            mu = findMaxMin(compositeElement, middleComponent, relation1, relation2);
             composite.set(compositeElement, mu);
         }
 
@@ -135,8 +98,25 @@ public class Relations {
                 && isMaxMinTransitive(relation);
     }
 
-    private static void assertUtimeURelation(IFuzzySet relation) {
-        if (!isUtimesURelation(relation))
+    private static double findMaxMin(DomainElement compositeElement, IDomain middleComponent, IFuzzySet relation1, IFuzzySet relation2) {
+        DomainElement leftElement, rightElement;
+        double mu = 0, mu1, mu2;
+
+        for (DomainElement componentElement : middleComponent) {
+            leftElement = DomainElement.of(compositeElement.getComponentValue(0), componentElement.getComponentValue(0));
+            rightElement = DomainElement.of(componentElement.getComponentValue(0), compositeElement.getComponentValue(1));
+
+            mu1 = relation1.getValueAt(leftElement);
+            mu2 = relation2.getValueAt(rightElement);
+
+            mu = Math.max(Math.min(mu1, mu2), mu);
+        }
+
+        return mu;
+    }
+
+    private static void assertUTimesURelation(IFuzzySet relation) {
+        if (!isUTimesURelation(relation))
             throw new IllegalArgumentException("Must be UxU relation.");
     }
 

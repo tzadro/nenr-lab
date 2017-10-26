@@ -57,7 +57,7 @@ public class Main {
                 .set(DomainElement.of(1,3), 0.4)
                 .set(DomainElement.of(3,1), 0.4);
 
-        boolean test1 = Relations.isUtimesURelation(r1);
+        boolean test1 = Relations.isUTimesURelation(r1);
         System.out.println("r1 je definiran nad UxU? " + test1);
 
         boolean test2 = Relations.isSymmetric(r1);
