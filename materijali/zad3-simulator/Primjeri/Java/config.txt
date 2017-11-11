@@ -1,4 +1,0 @@
-java -jar C:\fuzzy\primjer.jar
-1
-20
-10
