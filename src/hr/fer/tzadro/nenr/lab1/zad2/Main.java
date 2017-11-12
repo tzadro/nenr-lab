@@ -21,11 +21,7 @@ public class Main {
         IDomain d2 = Domain.intRange(-5, 6); // {-5,-4,...,4,5}
         IFuzzySet set2 = new CalculatedFuzzySet(
                 d2,
-                StandardFuzzySets.lambdaFunction(
-                        d2.indexOfElement(DomainElement.of(-4)),
-                        d2.indexOfElement(DomainElement.of(0)),
-                        d2.indexOfElement(DomainElement.of(4))
-                )
+                StandardFuzzySets.lambdaFunction(-4, 0, 4)
         );
         Debug.print(set2, "Set2:");
     }

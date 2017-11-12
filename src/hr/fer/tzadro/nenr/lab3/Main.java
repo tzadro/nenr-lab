@@ -1,28 +1,31 @@
 package hr.fer.tzadro.nenr.lab3;
 
-public class Main {
-}
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package primjer;
-        import java.io.*;
-        import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Main {
-
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-
-        int L=0,D=0,LK=0,DK=0,V=0,S=0,akcel,kormilo;
+        int L = 0, D = 0, LK = 0, DK = 0, V = 0, S = 0, akcel, kormilo;
         String line = null;
-        while(true){
-            if((line = input.readLine())!=null){
-                if(line.charAt(0)=='K') break;
+
+        // Biramo način dekodiranja neizrazitosti:
+        IDefuzzifier def = new COADefuzzifier();
+
+        // Stvaranje oba sustava:
+        // Grade se baze pravila i sve se inicijalizira
+        IFuzzySystem fsAkcel = new AkcelFuzzySystemMin(def);
+        IFuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
+
+        // Glavna petlja:
+        while (true) {
+            if ((line = input.readLine()) != null) {
+                if (line.charAt(0)=='K')
+                    break;
+
                 Scanner s = new Scanner(line);
                 L = s.nextInt();
                 D = s.nextInt();
@@ -32,9 +35,10 @@ public class Main {
                 S = s.nextInt();
             }
 
-            // fuzzy magic ...
+            // Zadaj ulaze, generiraj neizraziti izlaz, dekodiraj i vrati ga:
+            aakcel = fsAkcel.infer(L, D, LK, DK, V, S);
+            kormilo = fsKormilo.infer(L, D, LK, DK, V, S);
 
-            akcel = 10; kormilo = 5;
             System.out.println(akcel + " " + kormilo);
             System.out.flush();
         }
