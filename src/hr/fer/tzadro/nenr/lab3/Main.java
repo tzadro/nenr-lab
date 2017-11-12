@@ -3,13 +3,17 @@ package hr.fer.tzadro.nenr.lab3;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        PrintWriter writer = new PrintWriter("log.txt", "UTF-8");
+        String output;
+
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        int L = 0, D = 0, LK = 0, DK = 0, V = 0, S = 0, akcel, kormilo;
+        int L = 0, D = 0, LK = 0, DK = 0, V = 0, S = 0, akcel, kormilo, positionOffset, trailOffset;
         String line = null;
 
         // Biramo način dekodiranja neizrazitosti:
@@ -35,15 +39,26 @@ public class Main {
                 S = s.nextInt();
             }
 
-            // Zadaj ulaze, generiraj neizraziti izlaz, dekodiraj i vrati ga:
-            akcel = fsAkcel.infer(L, D, LK, DK, V, S);
-            kormilo = fsKormilo.infer(L, D, LK, DK, V, S);
+            // Preformuliranje ulaza
+            positionOffset = (int) (-10 + (1. * L) / (L + D) * 20); // [-10, 10]
+            trailOffset = (int) (-10 + (1. * LK) / (LK + DK) * 20); // [-10, 10]
 
+            // Zadaj ulaze, generiraj neizraziti izlaz, dekodiraj i vrati ga:
+            akcel = fsAkcel.infer(positionOffset, trailOffset, V, S, writer);
+            kormilo = fsKormilo.infer(positionOffset, trailOffset, V, S, writer);
+
+            output = akcel + " " + kormilo;
+            writer.println(output);
             System.out.println(akcel + " " + kormilo);
+
+            writer.flush();
             System.out.flush();
         }
-    }
+        writer.println("Checkpoint");
+        writer.flush();
 
+        writer.close();
+    }
 }
 
 

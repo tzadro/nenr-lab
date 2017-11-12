@@ -3,6 +3,8 @@ package hr.fer.tzadro.nenr.lab1.zad2;
 import hr.fer.tzadro.nenr.lab1.zad1.DomainElement;
 import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 
+import java.io.PrintWriter;
+
 public class MutableFuzzySet implements IFuzzySet {
     private IDomain domain;
     private double[] memberships;

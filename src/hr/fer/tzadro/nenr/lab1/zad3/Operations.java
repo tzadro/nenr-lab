@@ -1,8 +1,12 @@
 package hr.fer.tzadro.nenr.lab1.zad3;
 
+import hr.fer.tzadro.nenr.lab1.zad1.Domain;
 import hr.fer.tzadro.nenr.lab1.zad1.DomainElement;
+import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.MutableFuzzySet;
+
+import java.util.Arrays;
 
 public class Operations {
 
@@ -32,6 +36,23 @@ public class Operations {
         return newSet;
     }
 
+    public static IFuzzySet cartesianProduct(IFuzzySet set1, IFuzzySet set2, IBinaryFunction function) {
+        IDomain domain = Domain.combine(set1.getDomain(), set2.getDomain());
+        MutableFuzzySet set = new MutableFuzzySet(domain);
+
+        DomainElement element;
+        double mu;
+        for (DomainElement left : set1.getDomain()) {
+            for (DomainElement right : set2.getDomain()) {
+                element = DomainElement.combine(left, right);
+                mu = function.valueAt(set1.getValueAt(left), set2.getValueAt(right));
+                set.set(element, mu);
+            }
+        }
+
+        return set;
+    }
+
     public static IUnaryFunction zadehNot() {
         return new IUnaryFunction() {
 
@@ -43,23 +64,11 @@ public class Operations {
     }
 
     public static IBinaryFunction zadehAnd() {
-        return new IBinaryFunction() {
-
-            @Override
-            public double valueAt(double x1, double x2) {
-                return Math.min(x1, x2);
-            }
-        };
+        return minimum();
     }
 
     public static IBinaryFunction zadehOr() {
-        return new IBinaryFunction() {
-
-            @Override
-            public double valueAt(double x1, double x2) {
-                return Math.max(x1, x2);
-            }
-        };
+        return maximum();
     }
 
     public static IBinaryFunction hamacherTNorm(double v) {
@@ -78,6 +87,26 @@ public class Operations {
             @Override
             public double valueAt(double x1, double x2) {
                 return (x1 + x2 - (2 - v) * x1 * x2) / (1 - (1 - v) * x1 * x2);
+            }
+        };
+    }
+
+    public static IBinaryFunction minimum() {
+        return new IBinaryFunction() {
+
+            @Override
+            public double valueAt(double x1, double x2) {
+                return Math.min(x1, x2);
+            }
+        };
+    }
+
+    public static IBinaryFunction maximum() {
+        return new IBinaryFunction() {
+
+            @Override
+            public double valueAt(double x1, double x2) {
+                return Math.max(x1, x2);
             }
         };
     }

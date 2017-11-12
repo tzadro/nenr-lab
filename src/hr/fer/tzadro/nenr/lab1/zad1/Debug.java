@@ -23,7 +23,7 @@ public class Debug {
         }
 
         for (DomainElement e : fuzzySet.getDomain()) {
-            System.out.println("d(" + e.toString() + ")=" + fuzzySet.getValueAt(e));
+            System.out.println("d" + e.toString() + "=" + fuzzySet.getValueAt(e));
         }
 
         System.out.println();
