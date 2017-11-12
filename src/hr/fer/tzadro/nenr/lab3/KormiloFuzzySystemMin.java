@@ -1,14 +1,13 @@
 package hr.fer.tzadro.nenr.lab3;
 
+import hr.fer.tzadro.nenr.lab1.zad1.Debug;
 import hr.fer.tzadro.nenr.lab1.zad1.DomainElement;
 import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 import hr.fer.tzadro.nenr.lab1.zad1.SimpleDomain;
 import hr.fer.tzadro.nenr.lab1.zad2.CalculatedFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
-import hr.fer.tzadro.nenr.lab1.zad2.MutableFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.StandardFuzzySets;
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
-import hr.fer.tzadro.nenr.lab1.zad3.Operations;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,17 +15,15 @@ import java.util.ArrayList;
 
 public class KormiloFuzzySystemMin implements IFuzzySystem {
     private IDefuzzifier def;
-    private ArrayList<IFuzzySet> rules;
-    private IBinaryFunction tNorm = Operations.minimum();
+    private IBinaryFunction tNorm;
 
+    private ArrayList<IFuzzySet> rules;
     private IDomain offsetDomain;
     private IDomain angleDomain;
 
-    public KormiloFuzzySystemMin(IDefuzzifier def) {
+    public KormiloFuzzySystemMin(IDefuzzifier def, IBinaryFunction tNorm) {
         this.def = def;
-        rules = new ArrayList<>();
-
-        IFuzzySet antecedent, consequent;
+        this.tNorm = tNorm;
 
         // domene
         offsetDomain = new SimpleDomain(-10, 11);
@@ -48,62 +45,53 @@ public class KormiloFuzzySystemMin implements IFuzzySystem {
         IFuzzySet anglePB = new CalculatedFuzzySet(angleDomain, StandardFuzzySets.gammaFunction(60, 90));
 
         // pravila
-        rules.add(createRule(offsetNB, offsetNB, angleNB));
-        rules.add(createRule(offsetNB, offsetNM, angleNM));
-        rules.add(createRule(offsetNB, offsetZE, angleNS));
-        rules.add(createRule(offsetNB, offsetPM, angleNS));
-        rules.add(createRule(offsetNB, offsetPB, angleZE));
-        rules.add(createRule(offsetNM, offsetNB, angleNM));
-        rules.add(createRule(offsetNM, offsetNM, angleNS));
-        rules.add(createRule(offsetNM, offsetZE, angleNS));
-        rules.add(createRule(offsetNM, offsetPM, angleZE));
-        rules.add(createRule(offsetNM, offsetPB, anglePS));
-        rules.add(createRule(offsetZE, offsetNB, angleNS));
-        rules.add(createRule(offsetZE, offsetNM, angleNS));
-        rules.add(createRule(offsetZE, offsetZE, angleZE));
-        rules.add(createRule(offsetZE, offsetPM, anglePS));
-        rules.add(createRule(offsetZE, offsetPB, anglePS));
-        rules.add(createRule(offsetPM, offsetNB, angleNS));
-        rules.add(createRule(offsetPM, offsetNM, angleZE));
-        rules.add(createRule(offsetPM, offsetZE, anglePS));
-        rules.add(createRule(offsetPM, offsetPM, anglePS));
-        rules.add(createRule(offsetPM, offsetPB, anglePM));
-        rules.add(createRule(offsetPB, offsetNB, angleZE));
-        rules.add(createRule(offsetPB, offsetNM, anglePS));
-        rules.add(createRule(offsetPB, offsetZE, anglePS));
-        rules.add(createRule(offsetPB, offsetPM, anglePM));
-        rules.add(createRule(offsetPB, offsetPB, anglePB));
+        rules = new ArrayList<>();
+
+        rules.add(FuzzyLogic.imply(offsetNB, offsetNB, angleNB, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNB, offsetNM, angleNM, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNB, offsetZE, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNB, offsetPM, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNB, offsetPB, angleZE, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNM, offsetNB, angleNM, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNM, offsetNM, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNM, offsetZE, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNM, offsetPM, angleZE, tNorm));
+        rules.add(FuzzyLogic.imply(offsetNM, offsetPB, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetZE, offsetNB, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetZE, offsetNM, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetZE, offsetZE, angleZE, tNorm));
+        rules.add(FuzzyLogic.imply(offsetZE, offsetPM, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetZE, offsetPB, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPM, offsetNB, angleNS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPM, offsetNM, angleZE, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPM, offsetZE, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPM, offsetPM, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPM, offsetPB, anglePM, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPB, offsetNB, angleZE, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPB, offsetNM, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPB, offsetZE, anglePS, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPB, offsetPM, anglePM, tNorm));
+        rules.add(FuzzyLogic.imply(offsetPB, offsetPB, anglePB, tNorm));
+    }
+
+    public IFuzzySet getRule(int index) {
+        return rules.get(index);
+    }
+
+    public IDomain getAngleDomain() {
+        return angleDomain;
     }
 
     @Override
-    public int infer(int positionOffset, int trailOffset, int V, int S, PrintWriter writer) throws IOException {
+    public int infer(int positionOffset, int trailOffset, int V, int S, boolean verbose) {
         DomainElement input = DomainElement.of(positionOffset, trailOffset);
 
-        IFuzzySet result = new MutableFuzzySet(angleDomain);
+        IFuzzySet conclusion = FuzzyLogic.conclude(rules, input, angleDomain);
 
-        DomainElement temp;
-        for (IFuzzySet rule : rules) {
-            MutableFuzzySet implication = new MutableFuzzySet(angleDomain);
+        if (verbose)
+            Debug.print(conclusion, "Angle:");
 
-            for (DomainElement angleElement : angleDomain) {
-                temp = DomainElement.combine(input, angleElement);
-                try {
-                    implication.set(angleElement, rule.getValueAt(temp));
-                } catch(Exception e) {
-                    writer.println(e);
-                    writer.flush();
-                }
-            }
-
-            result = Operations.binaryOperation(result, implication, Operations.maximum());
-        }
-
-        return (int) def.defuzzify(result);
-    }
-
-    private IFuzzySet createRule(IFuzzySet premise1, IFuzzySet premise2, IFuzzySet consequent) {
-        IFuzzySet antecedent = Operations.cartesianProduct(premise1, premise2, tNorm);
-        return Operations.cartesianProduct(antecedent, consequent, tNorm);
+        return (int) def.defuzzify(conclusion);
     }
 }
 

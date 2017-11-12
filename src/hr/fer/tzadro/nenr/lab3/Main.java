@@ -1,5 +1,8 @@
 package hr.fer.tzadro.nenr.lab3;
 
+import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
+import hr.fer.tzadro.nenr.lab1.zad3.Operations;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,8 +24,9 @@ public class Main {
 
         // Stvaranje oba sustava:
         // Grade se baze pravila i sve se inicijalizira
-        IFuzzySystem fsAkcel = new AkcelFuzzySystemMin(def);
-        IFuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
+        IBinaryFunction tNorm = Operations.minimum();
+        IFuzzySystem fsAkcel = new AkcelFuzzySystemMin(def, tNorm);
+        IFuzzySystem fsKormilo = new KormiloFuzzySystemMin(def, tNorm);
 
         // Glavna petlja:
         while (true) {
@@ -44,8 +48,8 @@ public class Main {
             trailOffset = (int) (-10 + (1. * LK) / (LK + DK) * 20); // [-10, 10]
 
             // Zadaj ulaze, generiraj neizraziti izlaz, dekodiraj i vrati ga:
-            akcel = fsAkcel.infer(positionOffset, trailOffset, V, S, writer);
-            kormilo = fsKormilo.infer(positionOffset, trailOffset, V, S, writer);
+            akcel = fsAkcel.infer(positionOffset, trailOffset, V, S, false);
+            kormilo = fsKormilo.infer(positionOffset, trailOffset, V, S, false);
 
             output = akcel + " " + kormilo;
             writer.println(output);
