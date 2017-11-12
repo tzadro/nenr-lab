@@ -36,7 +36,7 @@ public class Main {
             }
 
             // Zadaj ulaze, generiraj neizraziti izlaz, dekodiraj i vrati ga:
-            aakcel = fsAkcel.infer(L, D, LK, DK, V, S);
+            akcel = fsAkcel.infer(L, D, LK, DK, V, S);
             kormilo = fsKormilo.infer(L, D, LK, DK, V, S);
 
             System.out.println(akcel + " " + kormilo);

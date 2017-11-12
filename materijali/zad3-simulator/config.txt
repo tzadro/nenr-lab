@@ -1,4 +1,4 @@
-java -jar C:\fuzzy\primjer.jar
+java -jar ..\..\out\artifacts\nenr_lab_jar\lab3.jar
 1
 20
 10

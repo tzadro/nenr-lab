@@ -31,4 +31,20 @@ public class StandardFuzzySets {
             }
         };
     }
+
+    public static IIntUnaryFunction LFunction(int alpha, int beta) {
+        return new IIntUnaryFunction() {
+
+            @Override
+            public double valueAt(int x) {
+                if (x < alpha)
+                    return 1;
+                else if (x >= alpha && x < beta)
+                    return 1. * (beta - x) / (beta - alpha);
+                else
+                    return 0;
+            }
+        };
+    }
+
 }
