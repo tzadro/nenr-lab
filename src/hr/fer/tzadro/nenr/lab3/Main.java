@@ -58,8 +58,6 @@ public class Main {
             writer.flush();
             System.out.flush();
         }
-        writer.println("Checkpoint");
-        writer.flush();
 
         writer.close();
     }
