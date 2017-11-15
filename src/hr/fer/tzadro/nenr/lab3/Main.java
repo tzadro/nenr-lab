@@ -24,7 +24,7 @@ public class Main {
 
         // Stvaranje oba sustava:
         // Grade se baze pravila i sve se inicijalizira
-        IBinaryFunction tNorm = Operations.minimum();
+        IBinaryFunction tNorm = Operations.product();
         IFuzzySystem fsAkcel = new AkcelFuzzySystemMin(def, tNorm);
         IFuzzySystem fsKormilo = new KormiloFuzzySystemMin(def, tNorm);
 

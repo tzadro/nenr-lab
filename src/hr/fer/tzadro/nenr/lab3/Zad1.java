@@ -13,7 +13,7 @@ import java.util.List;
 public class Zad1 {
 
     public static void main(String[] args) {
-        int L = 50, D = 150, LK = 50, DK = 60, V = 20, S = 0, rule = 10;
+        int L = 50, D = 150, LK = 50, DK = 60, V = 10, S = 0, rule = 8;
         int positionOffset, trailOffset;
 
         IDefuzzifier def = new COADefuzzifier();

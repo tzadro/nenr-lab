@@ -110,4 +110,14 @@ public class Operations {
             }
         };
     }
+
+    public static IBinaryFunction product() {
+        return new IBinaryFunction() {
+
+            @Override
+            public double valueAt(double x1, double x2) {
+                return x1 * x2;
+            }
+        };
+    }
 }
