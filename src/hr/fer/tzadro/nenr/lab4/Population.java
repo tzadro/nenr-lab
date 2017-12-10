@@ -1,5 +1,6 @@
 package hr.fer.tzadro.nenr.lab4;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +25,7 @@ public class Population {
         for (Individual individual : individuals) {
             individual.calculateFitness(measurements);
 
-            if (individual.getFitness() > bestIndividual.getFitness())
+            if (individual.getFitness() < bestIndividual.getFitness())
                 bestIndividual = individual;
         }
 
@@ -32,33 +33,22 @@ public class Population {
     }
 
     public Individual selectIndividual(boolean preserveBest) {
-        if (preserveBest) {
-            Individual selected = individuals.get(new Random().nextInt(populationSize));
+        List<Individual> source = new ArrayList<>(individuals);
 
-            while (selected == bestIndividual) {
-                selected = individuals.get(new Random().nextInt(populationSize));
-            }
+        if (preserveBest)
+            source.remove(bestIndividual);
 
-            return selected;
-        } else {
-            return individuals.get(new Random().nextInt(populationSize));
-        }
+        return source.get(new Random().nextInt(populationSize - (preserveBest ? 1 : 0)));
     }
 
     public List<Individual> selectIndividuals(int n, boolean preserveBest) {
-        if (preserveBest) {
-            Collections.shuffle(individuals);
-            List<Individual> selection = individuals.stream().limit(n).collect(Collectors.toList());
+        List<Individual> source = new ArrayList<>(individuals);
 
-            while (selection.contains(bestIndividual)) {
+        if (preserveBest)
+            source.remove(bestIndividual);
 
-            }
-
-            return selection;
-        } else {
-            Collections.shuffle(individuals);
-            return individuals.stream().limit(n).collect(Collectors.toList());
-        }
+        Collections.shuffle(source);
+        return source.stream().limit(n).collect(Collectors.toList());
     }
 
     public void replace(Individual oldIndividual, Individual newIndividual) {

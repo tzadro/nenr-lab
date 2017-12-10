@@ -25,7 +25,7 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
 
         for (int i = 1; i <= numOfIterations; i++) {
             generationBestIndividual = population.calculateFitness(measurements);
-            if (generationBestIndividual.getFitness() > bestIndividual.getFitness()) {
+            if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
                 bestIndividual = generationBestIndividual;
 
                 System.out.println("Generation: " + i + ", new best fitness: " + bestIndividual.getFitness() + ", params: " + Arrays.toString(bestIndividual.getGene()));
@@ -42,7 +42,7 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
         }
 
         generationBestIndividual = population.calculateFitness(measurements);
-        if (generationBestIndividual.getFitness() > bestIndividual.getFitness()) {
+        if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
             bestIndividual = generationBestIndividual;
 
             System.out.println("Generation: " + numOfIterations + ", new best fitness: " + bestIndividual.getFitness() + ", params: " + Arrays.toString(bestIndividual.getGene()));

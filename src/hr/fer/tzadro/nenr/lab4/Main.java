@@ -14,10 +14,10 @@ public class Main {
         List<Measurement> measurements;
 
         String DATASET_PATH = "./materijali/zad3-datasets/zad4-dataset1.txt";
-        int POPULATION_SIZE = 10;
-        int NUM_OF_ITERATIONS = 100;
+        int POPULATION_SIZE = 200;
+        int NUM_OF_ITERATIONS = 10000;
         double MUTATION_PROBABILITY = 0.2;
-        boolean PRESERVE_BEST = false;
+        boolean PRESERVE_BEST = true;
 
         try (Stream<String> stream = Files.lines(Paths.get(DATASET_PATH))) {
             measurements = stream.map(Measurement::new).collect(Collectors.toList());
