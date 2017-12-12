@@ -16,20 +16,23 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        final NeuralNetworkAlgorithm algorithm = new NeuralNetworkAlgorithm();
+
         primaryStage.setTitle("Greek alphabet classifier");
         Group root = new Group();
-        root.getChildren().add(createCanvas());
+        root.getChildren().add(createCanvas(algorithm));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-    private Canvas createCanvas() {
+    private Canvas createCanvas(NeuralNetworkAlgorithm algorithm) {
         Canvas canvas = new Canvas(300, 300);
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
-                    // todo: add coordinate to gesture path
+                    algorithm.addToPath(event.getX(), event.getY());
+
                     gc.beginPath();
                     gc.moveTo(event.getX(), event.getY());
                     gc.stroke();
@@ -37,14 +40,15 @@ public class Main extends Application {
 
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 event -> {
-                    // todo: add coordinate to gesture path
+                    algorithm.addToPath(event.getX(), event.getY());
+
                     gc.lineTo(event.getX(), event.getY());
                     gc.stroke();
                 });
 
         canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
                 event -> {
-                    // todo: start algorithm
+                    algorithm.predict();
                 });
 
         return canvas;
