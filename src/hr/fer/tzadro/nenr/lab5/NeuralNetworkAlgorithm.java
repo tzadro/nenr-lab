@@ -2,11 +2,17 @@ package hr.fer.tzadro.nenr.lab5;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class NeuralNetworkAlgorithm {
+    private int M;
+    private String datasetPath;
     private List<Coordinate> gesture;
 
-    public NeuralNetworkAlgorithm() {
+    public NeuralNetworkAlgorithm(int M, String datasetPath) {
+        this.M = M;
+        this.datasetPath = datasetPath;
         gesture = new ArrayList<>();
     }
 
@@ -15,9 +21,21 @@ public class NeuralNetworkAlgorithm {
     }
 
     public void predict() {
-        normalize();
+        List<Coordinate> features = getFeatures();
+
+        // todo: predict
 
         clearPath();
+    }
+
+    private List<Coordinate> getFeatures() {
+        normalize();
+
+        double D = getPathLength();
+
+        return gesture.stream()
+                .collect(() -> new GestureFeatures(gesture.get(0), D, M), GestureFeatures::accept, GestureFeatures::combine)
+                .features();
     }
 
     private void normalize() {
@@ -38,9 +56,16 @@ public class NeuralNetworkAlgorithm {
             c.x /= m;
             c.y /= m;
         });
+    }
 
-        System.out.println(Tc.x + " " + Tc.y);
-        System.out.println(m);
+    private double getPathLength() {
+        return IntStream.range(0, gesture.size() - 1)
+                .mapToDouble(i -> Math.sqrt(Math.pow(gesture.get(i).x - gesture.get(i + 1).x, 2) + Math.pow(gesture.get(i).y - gesture.get(i + 1).y, 2)))
+                .sum();
+    }
+
+    private void print(List<Coordinate> coordinates) {
+        System.out.println(coordinates.stream().map(e -> e.x + " " + e.y).collect(Collectors.joining(","))); // + "\t1,0,0,0,0"
     }
 
     private void clearPath() {

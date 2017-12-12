@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         List<Measurement> measurements;
 
-        String DATASET_PATH = "./materijali/zad3-datasets/zad4-dataset1.txt";
+        String DATASET_PATH = "./materijali/zad4-datasets/zad4-dataset1.txt";
         int POPULATION_SIZE = 200;
         int NUM_OF_ITERATIONS = 10000;
         double MUTATION_PROBABILITY = 0.2;

@@ -9,6 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private int width = 300;
+    private int height = 300;
 
     public static void main(String[] args) {
         launch(args);
@@ -16,7 +18,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        final NeuralNetworkAlgorithm algorithm = new NeuralNetworkAlgorithm();
+        int M = 20;
+        String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset1.txt";
+
+        final NeuralNetworkAlgorithm algorithm = new NeuralNetworkAlgorithm(M, DATASET_PATH);
 
         primaryStage.setTitle("Greek alphabet classifier");
         Group root = new Group();
@@ -26,13 +31,14 @@ public class Main extends Application {
     }
 
     private Canvas createCanvas(NeuralNetworkAlgorithm algorithm) {
-        Canvas canvas = new Canvas(300, 300);
+        Canvas canvas = new Canvas(width, height);
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
                     algorithm.addToPath(event.getX(), event.getY());
 
+                    gc.clearRect(0, 0, width, height);
                     gc.beginPath();
                     gc.moveTo(event.getX(), event.getY());
                     gc.stroke();
