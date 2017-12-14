@@ -8,6 +8,13 @@ public class Coordinate {
         this(Double.NaN,Double.NaN);
     }
 
+    public Coordinate(String line) {
+        String[] elements = line.split(" ");
+
+        x = Double.parseDouble(elements[0]);
+        y = Double.parseDouble(elements[1]);
+    }
+
     public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;

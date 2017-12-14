@@ -22,8 +22,7 @@ public class Main {
         try (Stream<String> stream = Files.lines(Paths.get(DATASET_PATH))) {
             measurements = stream.map(Measurement::new).collect(Collectors.toList());
         } catch (IOException ioe) {
-            System.out.println("Could not load file.");
-            return;
+            throw new IllegalArgumentException("Could not load file.");
         }
 
         IGeneticAlgorithm algorithm = new EliminationGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);

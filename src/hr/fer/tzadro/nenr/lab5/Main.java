@@ -19,9 +19,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         int M = 20;
-        String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset1.txt";
+        String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset-" + M + ".txt";
+        int[] HIDDEN_LAYERS = new int[]{2, 3, 2};
 
-        final NeuralNetworkAlgorithm algorithm = new NeuralNetworkAlgorithm(M, DATASET_PATH);
+        final DataProcessor algorithm = new DataProcessor(M, HIDDEN_LAYERS, DATASET_PATH);
 
         primaryStage.setTitle("Greek alphabet classifier");
         Group root = new Group();
@@ -30,7 +31,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private Canvas createCanvas(NeuralNetworkAlgorithm algorithm) {
+    private Canvas createCanvas(DataProcessor algorithm) {
         Canvas canvas = new Canvas(width, height);
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
