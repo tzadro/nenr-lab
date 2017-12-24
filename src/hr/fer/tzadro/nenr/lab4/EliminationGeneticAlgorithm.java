@@ -9,8 +9,6 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
     private int populationSize;
     private double mutationProbability;
 
-    private Population population;
-
     public EliminationGeneticAlgorithm(int populationSize, double mutationProbability) {
         this.populationSize = populationSize;
         this.mutationProbability = mutationProbability;
@@ -19,18 +17,13 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
     @Override
     public Individual run(List<Measurement> measurements, int numOfIterations, boolean preserveBest) {
         List<Individual> selection;
-        Individual generationBestIndividual, bestIndividual, selected, selectionWorstIndividual, newIndividual;
+        Individual selected, selectionWorstIndividual, newIndividual;
 
-        population = new Population(populationSize);
-        bestIndividual = population.selectIndividual(false);
+        Population population = new Population(populationSize);
+        Individual bestIndividual = population.selectIndividual(false);
 
         for (int i = 1; i <= numOfIterations; i++) {
-            generationBestIndividual = population.calculateFitness(measurements);
-            if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
-                bestIndividual = generationBestIndividual;
-
-                System.out.println(String.format(Locale.US, "Generation: %d, new best fitness: %.2f, with params: %s", i, bestIndividual.getFitness(), bestIndividual.toString()));
-            }
+            bestIndividual = calculateFitness(i, measurements, population, bestIndividual);
 
             selection = population.selectIndividuals(3, preserveBest);
             Collections.sort(selection);
@@ -42,13 +35,19 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
             selected.mutate(mutationProbability);
         }
 
-        generationBestIndividual = population.calculateFitness(measurements);
+        bestIndividual = calculateFitness(numOfIterations, measurements, population, bestIndividual);
+        return bestIndividual;
+    }
+
+    private Individual calculateFitness(int generation, List<Measurement> measurements, Population population, Individual bestIndividual) {
+        Individual generationBestIndividual = population.calculateFitness(measurements);
+
         if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
             bestIndividual = generationBestIndividual;
 
-            System.out.println("Generation: " + numOfIterations + ", new best fitness: " + bestIndividual.getFitness() + ", params: " + Arrays.toString(bestIndividual.getGene()));
+            System.out.println(String.format(Locale.US, "Generation: %d, new best fitness: %.2f, with params: %s", generation, bestIndividual.getFitness(), bestIndividual.toString()));
         }
 
-        return population.getBestIndividual();
+        return bestIndividual;
     }
 }

@@ -8,14 +8,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Population {
-    int populationSize;
-    List<Individual> individuals;
-    Individual bestIndividual;
+    private int populationSize;
+    private List<Individual> individuals;
+    private Individual bestIndividual;
 
     public Population(int populationSize) {
         this.populationSize = populationSize;
 
-        individuals = Stream.generate(Individual::new).limit(populationSize).collect(Collectors.toList());
+        individuals = Stream.generate(Individual::new)
+                            .limit(populationSize)
+                            .collect(Collectors.toList());
     }
 
     public Individual calculateFitness(List<Measurement> measurements) {

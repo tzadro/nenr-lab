@@ -14,7 +14,7 @@ public class Main {
         String DATASET_PATH = "./materijali/zad4-datasets/zad4-dataset1.txt";
         int POPULATION_SIZE = 200, NUM_OF_ITERATIONS = 10000;
         double MUTATION_PROBABILITY = 0.2;
-        boolean PRESERVE_BEST = false;
+        boolean PRESERVE_BEST = true;
 
         List<Measurement> measurements;
         try (Stream<String> stream = Files.lines(Paths.get(DATASET_PATH))) {
