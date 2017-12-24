@@ -1,11 +1,13 @@
 package hr.fer.tzadro.nenr.lab5;
 
+import java.util.Locale;
+
 public class Coordinate {
     public double x;
     public double y;
 
     public Coordinate() {
-        this(Double.NaN,Double.NaN);
+        this(Double.NaN, Double.NaN);
     }
 
     public Coordinate(String line) {
@@ -22,6 +24,6 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return String.format("(%.2f, %.2f)", x, y);
+        return String.format(Locale.US, "(%.2f, %.2f)", x, y);
     }
 }

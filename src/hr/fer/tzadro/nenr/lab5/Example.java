@@ -12,12 +12,12 @@ public class Example {
         String[] elements = line.split("\\t");
 
         X = Arrays.stream(elements[0].split(","))
-                .map(Coordinate::new)
-                .collect(Collectors.toList());
+                  .map(Coordinate::new)
+                  .collect(Collectors.toList());
 
         Yoh_ = Arrays.stream(elements[1].split(","))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
+                     .map(Integer::parseInt)
+                     .collect(Collectors.toList());
     }
 
     @Override

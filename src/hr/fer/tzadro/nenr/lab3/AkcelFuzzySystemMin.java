@@ -36,7 +36,7 @@ public class AkcelFuzzySystemMin implements IFuzzySystem {
         IFuzzySet offsetPM = new CalculatedFuzzySet(offsetDomain, StandardFuzzySets.lambdaFunction(0, 3, 7));
         IFuzzySet offsetPB = new CalculatedFuzzySet(offsetDomain, StandardFuzzySets.gammaFunction(3, 7));
 
-        IFuzzySet speedZE = new CalculatedFuzzySet(speedDomain, StandardFuzzySets.LFunction(0,  10));
+        IFuzzySet speedZE = new CalculatedFuzzySet(speedDomain, StandardFuzzySets.LFunction(0, 10));
         IFuzzySet speedPM = new CalculatedFuzzySet(speedDomain, StandardFuzzySets.lambdaFunction(0, 10, 25));
         IFuzzySet speedPB = new CalculatedFuzzySet(speedDomain, StandardFuzzySets.gammaFunction(10, 25));
 

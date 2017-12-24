@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 
 public class Population {
     int populationSize;
-
     List<Individual> individuals;
     Individual bestIndividual;
 
@@ -48,7 +47,9 @@ public class Population {
             source.remove(bestIndividual);
 
         Collections.shuffle(source);
-        return source.stream().limit(n).collect(Collectors.toList());
+        return source.stream()
+                     .limit(n)
+                     .collect(Collectors.toList());
     }
 
     public void replace(Individual oldIndividual, Individual newIndividual) {

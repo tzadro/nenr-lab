@@ -81,8 +81,8 @@ public class CompositeDomain extends Domain {
     @Override
     public String toString() {
         return "{" + IntStream.range(0, getCardinality())
-                .mapToObj(i -> elementForIndex(i).toString())
-                .collect(Collectors.joining(", ")) + "}";
+                              .mapToObj(i -> elementForIndex(i).toString())
+                              .collect(Collectors.joining(", ")) + "}";
     }
 
     private int recursiveSize(int from) {

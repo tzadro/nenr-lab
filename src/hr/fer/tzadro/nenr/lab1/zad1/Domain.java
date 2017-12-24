@@ -17,7 +17,7 @@ public abstract class Domain implements IDomain {
             list.addAll(Arrays.asList(d1.getComponents()));
             list.addAll(Arrays.asList(d2.getComponents()));
             return new CompositeDomain(list.toArray(new SimpleDomain[list.size()]));
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Domains must be of type SimpleDomain.");
         }
     }

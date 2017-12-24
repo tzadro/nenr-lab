@@ -56,14 +56,14 @@ public class DataProcessor {
         double D = getPathLength();
 
         return gesture.stream()
-                .collect(() -> new GestureFeatures(gesture.get(0), D, M), GestureFeatures::accept, GestureFeatures::combine)
-                .features();
+                      .collect(() -> new GestureFeatures(gesture.get(0), D, M), GestureFeatures::accept, GestureFeatures::combine)
+                      .features();
     }
 
     private void normalize() {
         Coordinate Tc = gesture.stream()
-                .collect(CoordinateAverager::new, CoordinateAverager::accept, CoordinateAverager::combine)
-                .average();
+                               .collect(CoordinateAverager::new, CoordinateAverager::accept, CoordinateAverager::combine)
+                               .average();
 
         gesture.forEach(c -> {
             c.x -= Tc.x;
@@ -71,8 +71,8 @@ public class DataProcessor {
         });
 
         double m = gesture.stream()
-                .collect(CoordinateMaximum::new, CoordinateMaximum::accept, CoordinateMaximum::combine)
-                .maximum();
+                          .collect(CoordinateMaximum::new, CoordinateMaximum::accept, CoordinateMaximum::combine)
+                          .maximum();
 
         gesture.forEach(c -> {
             c.x /= m;
@@ -82,8 +82,8 @@ public class DataProcessor {
 
     private double getPathLength() {
         return IntStream.range(0, gesture.size() - 1)
-                .mapToDouble(i -> Math.sqrt(Math.pow(gesture.get(i).x - gesture.get(i + 1).x, 2) + Math.pow(gesture.get(i).y - gesture.get(i + 1).y, 2)))
-                .sum();
+                        .mapToDouble(i -> Math.sqrt(Math.pow(gesture.get(i).x - gesture.get(i + 1).x, 2) + Math.pow(gesture.get(i).y - gesture.get(i + 1).y, 2)))
+                        .sum();
     }
 
     private void print(List<Coordinate> coordinates) {

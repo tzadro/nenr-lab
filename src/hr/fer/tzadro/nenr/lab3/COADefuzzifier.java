@@ -5,7 +5,8 @@ import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
 
 public class COADefuzzifier implements IDefuzzifier {
 
-    public COADefuzzifier() { }
+    public COADefuzzifier() {
+    }
 
     @Override
     public double defuzzify(IFuzzySet set) {

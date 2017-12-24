@@ -3,6 +3,7 @@ package hr.fer.tzadro.nenr.lab4;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
     private int populationSize;
@@ -28,7 +29,7 @@ public class EliminationGeneticAlgorithm implements IGeneticAlgorithm {
             if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
                 bestIndividual = generationBestIndividual;
 
-                System.out.println("Generation: " + i + ", new best fitness: " + bestIndividual.getFitness() + ", params: " + Arrays.toString(bestIndividual.getGene()));
+                System.out.println(String.format(Locale.US, "Generation: %d, new best fitness: %.2f, with params: %s", i, bestIndividual.getFitness(), bestIndividual.toString()));
             }
 
             selection = population.selectIndividuals(3, preserveBest);

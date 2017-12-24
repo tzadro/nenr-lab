@@ -5,5 +5,6 @@ import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 
 public interface IFuzzySet {
     IDomain getDomain();
+
     double getValueAt(DomainElement element);
 }

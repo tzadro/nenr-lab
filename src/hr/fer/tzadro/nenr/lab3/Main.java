@@ -31,7 +31,7 @@ public class Main {
         // Glavna petlja:
         while (true) {
             if ((line = input.readLine()) != null) {
-                if (line.charAt(0)=='K')
+                if (line.charAt(0) == 'K')
                     break;
 
                 Scanner s = new Scanner(line);
