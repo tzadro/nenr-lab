@@ -1,5 +1,8 @@
 package hr.fer.tzadro.nenr.lab4;
 
+import hr.fer.tzadro.nenr.lab4.algorithm.SteadyStateGeneticAlgorithm;
+import hr.fer.tzadro.nenr.lab4.algorithm.GeneticAlgorithm;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,7 +26,7 @@ public class Main {
             throw new IllegalArgumentException("Could not load file.");
         }
 
-        IGeneticAlgorithm algorithm = new EliminationGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);
+        GeneticAlgorithm algorithm = new SteadyStateGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);
         Individual result = algorithm.run(measurements, NUM_OF_ITERATIONS, PRESERVE_BEST);
         System.out.println(String.format(Locale.US, "Best fitness: %.2f, with params: %s", result.getFitness(), result.toString()));
     }

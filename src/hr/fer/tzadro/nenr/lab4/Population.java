@@ -1,20 +1,18 @@
 package hr.fer.tzadro.nenr.lab4;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import hr.fer.tzadro.nenr.lab4.selection.ISelectionOperator;
+
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Population {
-    private int populationSize;
+    private ISelectionOperator selector;
     private List<Individual> individuals;
     private Individual bestIndividual;
 
-    public Population(int populationSize) {
-        this.populationSize = populationSize;
-
+    public Population(int populationSize, ISelectionOperator selector) {
+        this.selector = selector;
         individuals = Stream.generate(Individual::new)
                             .limit(populationSize)
                             .collect(Collectors.toList());
@@ -34,24 +32,11 @@ public class Population {
     }
 
     public Individual selectIndividual(boolean preserveBest) {
-        List<Individual> source = new ArrayList<>(individuals);
-
-        if (preserveBest)
-            source.remove(bestIndividual);
-
-        return source.get(new Random().nextInt(populationSize - (preserveBest ? 1 : 0)));
+        return selector.selectIndividual(individuals, preserveBest, bestIndividual);
     }
 
     public List<Individual> selectIndividuals(int n, boolean preserveBest) {
-        List<Individual> source = new ArrayList<>(individuals);
-
-        if (preserveBest)
-            source.remove(bestIndividual);
-
-        Collections.shuffle(source);
-        return source.stream()
-                     .limit(n)
-                     .collect(Collectors.toList());
+        return selector.selectIndividuals(individuals, n, preserveBest, bestIndividual);
     }
 
     public void replace(Individual oldIndividual, Individual newIndividual) {
@@ -59,7 +44,7 @@ public class Population {
         individuals.add(newIndividual);
     }
 
-    public Individual getBestIndividual() {
-        return bestIndividual;
+    public void add(Individual newIndividual) {
+        individuals.add(newIndividual);
     }
 }
