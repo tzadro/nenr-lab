@@ -21,7 +21,7 @@ public abstract class GeneticAlgorithm {
     protected Individual calculateGenerationFitness(int generation, List<Measurement> measurements, Population population, Individual bestIndividual) {
         Individual generationBestIndividual = population.calculateFitness(measurements);
 
-        if (generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
+        if (bestIndividual == null || generationBestIndividual.getFitness() < bestIndividual.getFitness()) {
             bestIndividual = generationBestIndividual;
 
             System.out.println(String.format(Locale.US, "Generation: %d, new best fitness: %.2f, with params: %s", generation, bestIndividual.getFitness(), bestIndividual.toString()));

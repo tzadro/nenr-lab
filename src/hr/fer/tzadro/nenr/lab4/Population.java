@@ -11,6 +11,10 @@ public class Population {
     private List<Individual> individuals;
     private Individual bestIndividual;
 
+    public Population(ISelectionOperator selector) {
+        this(0, selector);
+    }
+
     public Population(int populationSize, ISelectionOperator selector) {
         this.selector = selector;
         individuals = Stream.generate(Individual::new)

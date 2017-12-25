@@ -1,5 +1,6 @@
 package hr.fer.tzadro.nenr.lab4;
 
+import hr.fer.tzadro.nenr.lab4.algorithm.GenerationalGeneticAlgorithm;
 import hr.fer.tzadro.nenr.lab4.algorithm.SteadyStateGeneticAlgorithm;
 import hr.fer.tzadro.nenr.lab4.algorithm.GeneticAlgorithm;
 
@@ -16,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         String DATASET_PATH = "./materijali/zad4-datasets/zad4-dataset1.txt";
         int POPULATION_SIZE = 200, NUM_OF_ITERATIONS = 10000;
-        double MUTATION_PROBABILITY = 0.2;
+        double MUTATION_PROBABILITY = 0.1;
         boolean PRESERVE_BEST = true;
 
         List<Measurement> measurements;
@@ -26,7 +27,7 @@ public class Main {
             throw new IllegalArgumentException("Could not load file.");
         }
 
-        GeneticAlgorithm algorithm = new SteadyStateGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);
+        GeneticAlgorithm algorithm = new GenerationalGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);
         Individual result = algorithm.run(measurements, NUM_OF_ITERATIONS, PRESERVE_BEST);
         System.out.println(String.format(Locale.US, "Best fitness: %.2f, with params: %s", result.getFitness(), result.toString()));
     }

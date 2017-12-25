@@ -19,8 +19,8 @@ public class SteadyStateGeneticAlgorithm extends GeneticAlgorithm {
         List<Individual> selection;
         Individual selected, selectionWorstIndividual, newIndividual;
 
-        Population population = new Population(populationSize, SelectionOperators.randomSelectionOperator()); // todo: .randomSelectionOperator()
-        Individual bestIndividual = calculateGenerationFitness(0, measurements, population, population.selectIndividual(false));
+        Population population = new Population(populationSize, SelectionOperators.randomSelectionOperator());
+        Individual bestIndividual = calculateGenerationFitness(0, measurements, population, null);
 
         for (int i = 1; i <= numOfIterations; i++) {
             selection = population.selectIndividuals(3, preserveBest);

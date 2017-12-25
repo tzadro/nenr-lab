@@ -62,14 +62,19 @@ public class SelectionOperators {
                             .sum();
                 top = 0;
 
-                for (Individual individual : individuals) {
-                    top += (max - individual.getFitness()) / sum;
+                if (sum == 0) {
+                    System.out.println("ROULETTE GOING RANDOM");
+                    return source.get(new Random().nextInt(individuals.size() - (preserveBest ? 1 : 0)));
+                } else {
+                    for (Individual individual : individuals) {
+                        top += (max - individual.getFitness()) / sum;
 
-                    if (selection < top) {
-                        return individual;
+                        if (selection < top) {
+                            return individual;
+                        }
                     }
+                    throw new IllegalArgumentException("Roulette wheel error.");
                 }
-                throw new IllegalArgumentException("Roulette wheel error.");
             }
 
             @Override
@@ -78,14 +83,19 @@ public class SelectionOperators {
                     throw new IllegalArgumentException("Population too small.");
 
                 List<Individual> source = new ArrayList<>(individuals);
+                List<Individual> result = new ArrayList<>();
 
                 if (preserveBest)
                     source.remove(bestIndividual);
 
-                Collections.shuffle(source);
-                return source.stream()
-                             .limit(n)
-                             .collect(Collectors.toList());
+                Individual selected;
+                for (int i = 0; i < n; i++) {
+                    selected = selectIndividual(individuals, preserveBest, bestIndividual);
+                    result.add(selected);
+                    source.remove(selected);
+                }
+
+                return result;
             }
         };
     }
