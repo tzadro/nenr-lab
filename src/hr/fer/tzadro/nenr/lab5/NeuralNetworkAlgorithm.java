@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class NeuralNetworkAlgorithm {
     private int M;
@@ -22,29 +23,55 @@ public class NeuralNetworkAlgorithm {
     }
 
     public void train(List<Example> dataset) {
-        // todo: implement
+        int row = dataset.size();
+        double[][] X = new double[row][M * 2];
+        double[][] Y_ = new double[row][5];
+        IntStream.range(0, row).forEach(i -> {
+            Example example = dataset.get(i);
+
+            X[i] = example.X.stream()
+                            .flatMapToDouble(e -> e.toStream())
+                            .toArray();
+            Y_[i] = example.Yoh_.stream()
+                                .mapToDouble(e -> e)
+                                .toArray();
+        });
+
+        for (int i = 0; i < 1000; i++) {
+            double[][] out = X.clone();
+
+            for (Layer layer : layers) {
+                out = layer.forward(out);
+            }
+
+            double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_, out)));
+
+            out = error;
+            for (int j = layers.size() - 1; j >= 0; j--) {
+                out = layers.get(j).backward(out);
+            }
+        }
     }
 
-    // todo: too ugly
     public int predict(List<Coordinate> gesture) {
         double[][] out = new double[1][M * 2];
 
-        List<Double> xs = gesture.stream().map(e -> e.x).collect(Collectors.toList());
-        List<Double> ys = gesture.stream().map(e -> e.y).collect(Collectors.toList());
-        xs.addAll(ys);
-
-        out[0] = xs.stream().mapToDouble(e -> e).toArray();
+        out[0] = gesture.stream().flatMapToDouble(e -> e.toStream()).toArray();
 
         for (Layer layer : layers) {
             out = layer.forward(out);
         }
 
+        return maxIndex(out[0]);
+    }
+
+    public int maxIndex(double[] array) {
         int maxIndex = 5;
+
         double maxValue = Double.MIN_VALUE;
-        for (int i = 0; i < out[0].length; i++) {
-            System.out.println(out[0][i]);
-            if (out[0][i] > maxValue) {
-                maxValue = out[0][i];
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] > maxValue) {
+                maxValue = array[i];
                 maxIndex = i;
             }
         }

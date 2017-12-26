@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class Layer {
     int size;
-    double[][] weights;
+    double[][] weights, inputs;
     double[] biases;
 
     public Layer(int numIn, int size) {
@@ -23,27 +23,31 @@ public class Layer {
         biases = new double[size];
     }
 
-    public double[][] forward(double[][] in) {
-        double[][] result = matmul(in, weights);
+    public double[][] forward(double[][] inputs) {
+        this.inputs = inputs;
+        double[][] result = Utility.matmul(inputs, weights);
+
         Arrays.stream(result)
               .forEach(row -> IntStream.range(0, size)
-                                       .forEach(i -> row[i] = sigmoid(row[i] + biases[i])));
+                                       .forEach(i -> row[i] = Utility.sigmoid(row[i] + biases[i]))
+              );
+
         return result;
     }
 
-    // https://stackoverflow.com/questions/34774384/multiply-2-double-matrices-using-streams
-    private double[][] matmul(double[][] m1, double[][] m2) {
-        return Arrays.stream(m1)
-                     .map(r -> IntStream.range(0, m2[0].length)
-                                        .mapToDouble(i -> IntStream.range(0, m2.length)
-                                                                   .mapToDouble(j -> r[j] * m2[j][i])
-                                                                   .sum())
-                                        .toArray())
-                     .toArray(double[][]::new);
-    }
+    public double[][] backward(double[][] grads) {
+        int n = grads.length;
 
-    // http://chronicles.blog.ryanrampersad.com/2009/02/sigmoid-function-in-java/
-    public double sigmoid(double x) {
-        return (1 / (1 + Math.pow(Math.E, -x)));
+        double[][] grad_weights = Utility.matmul(Utility.transpose(grads), inputs);
+        double[] grad_bias = Arrays.stream(Utility.transpose(grads))
+                                   .mapToDouble(row -> Arrays.stream(row)
+                                                             .sum() / n
+                                   ).toArray();
+
+        weights = Utility.sum(weights, Utility.mul(-0.01, Utility.transpose(grad_weights)));
+        biases = Utility.sum(biases, Utility.mul(-0.01, grad_bias));
+
+        grads = Utility.matmul(grads, Utility.transpose(weights));
+        return grads;
     }
 }

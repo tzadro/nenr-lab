@@ -1,6 +1,8 @@
 package hr.fer.tzadro.nenr.lab5;
 
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.DoubleStream;
 
 public class Coordinate {
     public double x;
@@ -25,5 +27,9 @@ public class Coordinate {
     @Override
     public String toString() {
         return String.format(Locale.US, "(%.2f, %.2f)", x, y);
+    }
+
+    public DoubleStream toStream() {
+        return Arrays.stream(new double[]{x, y});
     }
 }

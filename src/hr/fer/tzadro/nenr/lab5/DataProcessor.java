@@ -42,7 +42,6 @@ public class DataProcessor {
     public void predict() {
         List<Coordinate> features = getFeatures();
 
-        // todo: calculate matrix here
         int result = algorithm.predict(features);
 
         System.out.println(result);
