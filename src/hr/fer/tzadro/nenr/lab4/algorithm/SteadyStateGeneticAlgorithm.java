@@ -16,20 +16,17 @@ public class SteadyStateGeneticAlgorithm extends GeneticAlgorithm {
 
     @Override
     public Individual run(List<Measurement> measurements, int numOfIterations, boolean preserveBest) {
-        List<Individual> selection;
-        Individual selected, selectionWorstIndividual, newIndividual;
-
         Population population = new Population(populationSize, SelectionOperators.randomSelectionOperator());
         Individual bestIndividual = calculateGenerationFitness(0, measurements, population, null);
 
         for (int i = 1; i <= numOfIterations; i++) {
-            selection = population.selectIndividuals(3, preserveBest);
+            List<Individual> selection = population.selectIndividuals(3, preserveBest);
             Collections.sort(selection);
-            selectionWorstIndividual = selection.get(2);
-            newIndividual = Individual.crossover(selection.get(0), selection.get(1));
+            Individual selectionWorstIndividual = selection.get(2);
+            Individual newIndividual = Individual.crossover(selection.get(0), selection.get(1));
             population.replace(selectionWorstIndividual, newIndividual);
 
-            selected = population.selectIndividual(preserveBest);
+            Individual selected = population.selectIndividual(preserveBest);
             selected.mutate(mutationProbability);
 
             bestIndividual = calculateGenerationFitness(i, measurements, population, bestIndividual);

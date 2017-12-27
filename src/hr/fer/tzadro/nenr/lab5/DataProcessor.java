@@ -1,7 +1,5 @@
 package hr.fer.tzadro.nenr.lab5;
 
-import hr.fer.tzadro.nenr.lab4.Measurement;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,13 +11,11 @@ import java.util.stream.Stream;
 
 public class DataProcessor {
     private int M;
-    private String datasetPath;
     private List<Coordinate> gesture;
     private NeuralNetworkAlgorithm algorithm;
 
     public DataProcessor(int M, int[] hiddenLayers, String datasetPath) {
         this.M = M;
-        this.datasetPath = datasetPath;
         gesture = new ArrayList<>();
 
         algorithm = new NeuralNetworkAlgorithm(M, hiddenLayers);

@@ -47,20 +47,19 @@ public class SelectionOperators {
             @Override
             public Individual selectIndividual(List<Individual> individuals, boolean preserveBest, Individual bestIndividual) {
                 List<Individual> source = new ArrayList<>(individuals);
-                double selection, max, sum, top;
 
                 if (preserveBest)
                     source.remove(bestIndividual);
 
-                selection = Math.random();
-                max = source.stream()
-                            .mapToDouble(e -> e.getFitness())
-                            .max()
-                            .orElseThrow(() -> new IllegalArgumentException("Couldn't find max value."));
-                sum = source.stream()
-                            .mapToDouble(e -> max - e.getFitness())
-                            .sum();
-                top = 0;
+                double selection = Math.random();
+                double max = source.stream()
+                                   .mapToDouble(e -> e.getFitness())
+                                   .max()
+                                   .orElseThrow(() -> new IllegalArgumentException("Couldn't find max value."));
+                double sum = source.stream()
+                                   .mapToDouble(e -> max - e.getFitness())
+                                   .sum();
+                double top = 0;
 
                 if (sum == 0) {
                     System.out.println("ROULETTE GOING RANDOM");
@@ -88,9 +87,8 @@ public class SelectionOperators {
                 if (preserveBest)
                     source.remove(bestIndividual);
 
-                Individual selected;
                 for (int i = 0; i < n; i++) {
-                    selected = selectIndividual(individuals, preserveBest, bestIndividual);
+                    Individual selected = selectIndividual(individuals, preserveBest, bestIndividual);
                     result.add(selected);
                     source.remove(selected);
                 }
