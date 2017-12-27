@@ -86,6 +86,22 @@ public class Utility {
         return result;
     }
 
+    public static double[][] mul(double[][] m1, double[][] m2) {
+        if (m1.length != m2.length || m1[0].length != m2[0].length)
+            throw new IllegalArgumentException("Matrix dimensions don't match.");
+
+        int row = m1.length;
+        int col = m1[0].length;
+        double[][] result = new double[row][col];
+
+        IntStream.range(0, row)
+                 .forEach(i -> IntStream.range(0, col)
+                                        .forEach(j -> result[i][j] = m1[i][j] * m2[i][j])
+                 );
+
+        return result;
+    }
+
     public static double[] mul(double[] m1, double[] m2) {
         if (m1.length != m2.length)
             throw new IllegalArgumentException("Matrix dimensions don't match.");
@@ -105,6 +121,19 @@ public class Utility {
 
         IntStream.range(0, row)
                  .forEach(i -> result[i] = k * m[i]);
+
+        return result;
+    }
+
+    public static double[][] div(double[][] m, double k) {
+        int row = m.length;
+        int col = m[0].length;
+        double[][] result = new double[row][col];
+
+        IntStream.range(0, row)
+                 .forEach(i -> IntStream.range(0, col)
+                                        .forEach(j -> result[i][j] = m[i][j] / k)
+                 );
 
         return result;
     }
