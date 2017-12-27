@@ -69,7 +69,17 @@ public class Utility {
 
     public static double[][] diff(double[][] m1, double[][] m2) {
         double[][] m2negative = m2.clone();
-        IntStream.range(0, m2negative.length).forEach(i -> IntStream.range(0, m2negative[0].length).forEach(j -> m2negative[i][j] = -m2negative[i][j]));
+        IntStream.range(0, m2negative.length)
+                 .forEach(i -> IntStream.range(0, m2negative[0].length)
+                                        .forEach(j -> m2negative[i][j] = -m2negative[i][j])
+                 );
+        return sum(m1, m2negative);
+    }
+
+    public static double[] diff(double[] m1, double[] m2) {
+        double[] m2negative = m2.clone();
+        IntStream.range(0, m2negative.length)
+                 .forEach(i -> m2negative[i] = -m2negative[i]);
         return sum(m1, m2negative);
     }
 

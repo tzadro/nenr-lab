@@ -47,12 +47,12 @@ public class NeuralNetworkAlgorithm {
 
             double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_, Utility.mul(Y_, out))));
 
-            System.out.println("Y_: (" + Arrays.stream(Y_[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
+            //System.out.println("Y_: (" + Arrays.stream(Y_[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
             System.out.println("error: (" + Arrays.stream(error[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
 
-            System.out.println("out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
+            //System.out.println("out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
             out = Utility.div(Utility.diff(out, Y_), out.length);
-            System.out.println("out grad: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
+            //System.out.println("out grad: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
             for (int j = layers.size() - 1; j >= 0; j--) {
                 out = layers.get(j).backward(out);
             }

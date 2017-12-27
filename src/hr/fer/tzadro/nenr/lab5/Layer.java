@@ -44,8 +44,8 @@ public class Layer {
                                                              .sum() / n
                                    ).toArray();
 
-        weights = Utility.sum(weights, Utility.mul(-0.01, Utility.transpose(grad_weights)));
-        biases = Utility.sum(biases, Utility.mul(-0.01, grad_bias));
+        weights = Utility.diff(weights, Utility.mul(0.01, Utility.transpose(grad_weights)));
+        biases = Utility.diff(biases, Utility.mul(0.01, grad_bias));
 
         grads = Utility.matmul(grads, Utility.transpose(weights));
         return grads;
