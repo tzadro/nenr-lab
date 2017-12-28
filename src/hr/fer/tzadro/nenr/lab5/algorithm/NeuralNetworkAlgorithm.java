@@ -13,12 +13,10 @@ import java.util.stream.IntStream;
 
 public class NeuralNetworkAlgorithm {
     private int M;
-    private double learningRate;
     private List<Layer> layers;
 
-    public NeuralNetworkAlgorithm(int M, double learningRate, int[] hiddenLayers) {
+    public NeuralNetworkAlgorithm(int M, int[] hiddenLayers) {
         this.M = M;
-        this.learningRate = learningRate;
         layers = new ArrayList<>();
 
         int out = 2 * M;
@@ -29,8 +27,8 @@ public class NeuralNetworkAlgorithm {
         layers.add(new Layer(hiddenLayers[hiddenLayers.length - 1], 5));
     }
 
-    public void train(List<Example> dataset) {
-        int row = dataset.size();
+    public void train(List<Example> dataset, double learningRate, int numIterations, boolean minibatch, Integer minibatchSize) {
+        int row = dataset.size(), minibatchStart = 0;
         double[][] X = new double[row][M * 2];
         double[][] Y_ = new double[row][5];
         IntStream.range(0, row).forEach(i -> {
@@ -44,17 +42,30 @@ public class NeuralNetworkAlgorithm {
                                 .toArray();
         });
 
-        for (int i = 0; i < 1000; i++) {
-            double[][] out = X.clone();
+        for (int i = 0; i < numIterations; i++) {
+            double[][] X_batch, Y_batch;
+            if (minibatch) {
+                if (minibatchStart + minibatchSize > X.length)
+                    minibatchStart = 0;
 
+                X_batch = Arrays.copyOfRange(X, minibatchStart, minibatchStart + minibatchSize);
+                Y_batch = Arrays.copyOfRange(Y_, minibatchStart, minibatchStart + minibatchSize);
+
+                minibatchStart = (minibatchStart + minibatchSize);
+            } else {
+                X_batch = X.clone();
+                Y_batch = Y_.clone();
+            }
+
+            double[][] out = X_batch;
             for (Layer layer : layers) {
                 out = layer.forward(out);
             }
 
-            double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_, out)));
+            double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_batch, out)));
             System.out.println(String.format("%.4f", Arrays.stream(error[0]).sum()) + " out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
 
-            out = Utility.div(Utility.diff(out, Y_), out.length);
+            out = Utility.div(Utility.diff(out, Y_batch), out.length);
             for (int j = layers.size() - 1; j >= 0; j--) {
                 out = layers.get(j).backward(out, learningRate);
             }
