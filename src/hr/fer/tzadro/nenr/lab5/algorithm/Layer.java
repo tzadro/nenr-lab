@@ -22,7 +22,7 @@ public class Layer {
         return outputsCache;
     }
 
-    public double[][] backward(double[][] grads) {
+    public double[][] backward(double[][] grads, double learningRate) {
         int n = grads.length;
 
         grads = Utility.mul(grads, Utility.mul(outputsCache, Utility.diff(1, outputsCache)));
@@ -33,8 +33,8 @@ public class Layer {
                                                              .sum() / n
                                    ).toArray();
 
-        weights = Utility.diff(weights, Utility.mul(0.4, Utility.transpose(grad_weights)));
-        biases = Utility.diff(biases, Utility.mul(0.4, grad_bias));
+        weights = Utility.diff(weights, Utility.mul(learningRate, Utility.transpose(grad_weights)));
+        biases = Utility.diff(biases, Utility.mul(learningRate, grad_bias));
 
         grads = Utility.matmul(grads, Utility.transpose(weights));
         return grads;

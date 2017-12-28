@@ -10,9 +10,9 @@ public class Controller {
     private NeuralNetworkAlgorithm algorithm;
     private DataProcessor data;
 
-    public Controller(int M, int[] hiddenLayers, String datasetPath) {
+    public Controller(int M, double learningRate, int[] hiddenLayers, String datasetPath) {
         data = new DataProcessor(M);
-        algorithm = new NeuralNetworkAlgorithm(M, hiddenLayers);
+        algorithm = new NeuralNetworkAlgorithm(M, learningRate, hiddenLayers);
         algorithm.train(data.loadDataset(datasetPath));
     }
 

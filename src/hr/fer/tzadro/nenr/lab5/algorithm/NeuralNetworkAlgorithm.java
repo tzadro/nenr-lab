@@ -13,10 +13,12 @@ import java.util.stream.IntStream;
 
 public class NeuralNetworkAlgorithm {
     private int M;
+    private double learningRate;
     private List<Layer> layers;
 
-    public NeuralNetworkAlgorithm(int M, int[] hiddenLayers) {
+    public NeuralNetworkAlgorithm(int M, double learningRate, int[] hiddenLayers) {
         this.M = M;
+        this.learningRate = learningRate;
         layers = new ArrayList<>();
 
         int out = 2 * M;
@@ -54,7 +56,7 @@ public class NeuralNetworkAlgorithm {
 
             out = Utility.div(Utility.diff(out, Y_), out.length);
             for (int j = layers.size() - 1; j >= 0; j--) {
-                out = layers.get(j).backward(out);
+                out = layers.get(j).backward(out, learningRate);
             }
         }
     }

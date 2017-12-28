@@ -20,11 +20,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        int M = 20;
+        int M = 100;
+        double LEARNING_RATE = 0.4;
         String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset-" + M + ".txt";
-        int[] HIDDEN_LAYERS = new int[]{40, 40, 20};
+        int[] HIDDEN_LAYERS = new int[]{50, 60, 30};
 
-        controller = new Controller(M, HIDDEN_LAYERS, DATASET_PATH);
+        controller = new Controller(M, LEARNING_RATE, HIDDEN_LAYERS, DATASET_PATH);
 
         primaryStage.setTitle("Greek alphabet classifier");
         Group root = new Group();
