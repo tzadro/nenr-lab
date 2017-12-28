@@ -1,4 +1,6 @@
-package hr.fer.tzadro.nenr.lab5;
+package hr.fer.tzadro.nenr.lab5.utility;
+
+import hr.fer.tzadro.nenr.lab5.data.Coordinate;
 
 import java.util.List;
 import java.util.stream.Collectors;

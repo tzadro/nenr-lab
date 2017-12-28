@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab5;
+package hr.fer.tzadro.nenr.lab5.data;
 
 import java.util.Arrays;
 import java.util.Locale;

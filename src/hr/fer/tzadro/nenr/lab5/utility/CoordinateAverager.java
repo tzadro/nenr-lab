@@ -1,6 +1,8 @@
-package hr.fer.tzadro.nenr.lab5;
+package hr.fer.tzadro.nenr.lab5.utility;
 
-class CoordinateAverager {
+import hr.fer.tzadro.nenr.lab5.data.Coordinate;
+
+public class CoordinateAverager {
     private double sumx = 0;
     private double sumy = 0;
     private int count = 0;

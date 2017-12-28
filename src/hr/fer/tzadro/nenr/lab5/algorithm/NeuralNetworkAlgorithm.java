@@ -1,4 +1,8 @@
-package hr.fer.tzadro.nenr.lab5;
+package hr.fer.tzadro.nenr.lab5.algorithm;
+
+import hr.fer.tzadro.nenr.lab5.utility.Utility;
+import hr.fer.tzadro.nenr.lab5.data.Coordinate;
+import hr.fer.tzadro.nenr.lab5.data.Example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,9 +20,9 @@ public class NeuralNetworkAlgorithm {
         layers = new ArrayList<>();
 
         int out = 2 * M;
-        for (int layer : hiddenLayers) {
-            layers.add(new Layer(out, layer));
-            out = layer;
+        for (int numNodes : hiddenLayers) {
+            layers.add(new Layer(out, numNodes));
+            out = numNodes;
         }
         layers.add(new Layer(hiddenLayers[hiddenLayers.length - 1], 5));
     }
@@ -45,14 +49,10 @@ public class NeuralNetworkAlgorithm {
                 out = layer.forward(out);
             }
 
-            double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_, Utility.mul(Y_, out))));
+            double[][] error = Utility.mul(0.5, Utility.square(Utility.diff(Y_, out)));
+            System.out.println(String.format("%.4f", Arrays.stream(error[0]).sum()) + " out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
 
-            //System.out.println("Y_: (" + Arrays.stream(Y_[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
-            System.out.println("error: (" + Arrays.stream(error[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
-
-            //System.out.println("out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
             out = Utility.div(Utility.diff(out, Y_), out.length);
-            //System.out.println("out grad: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
             for (int j = layers.size() - 1; j >= 0; j--) {
                 out = layers.get(j).backward(out);
             }
@@ -67,24 +67,8 @@ public class NeuralNetworkAlgorithm {
         for (Layer layer : layers) {
             out = layer.forward(out);
         }
+        System.out.println("out: (" + Arrays.stream(out[0]).mapToObj(e -> String.format(Locale.US, "%.4f", e)).collect(Collectors.joining(",")) + ")");
 
-        return maxIndex(out[0]);
-    }
-
-    public int maxIndex(double[] array) {
-        int maxIndex = 5;
-
-        double maxValue = Double.MIN_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] > maxValue) {
-                maxValue = array[i];
-                maxIndex = i;
-            }
-        }
-
-        if (maxIndex == 5)
-            throw new IllegalArgumentException("Something went really wrong..");
-
-        return maxIndex;
+        return Utility.argmax(out[0]);
     }
 }

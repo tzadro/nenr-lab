@@ -12,6 +12,8 @@ public class Main extends Application {
     private int width = 300;
     private int height = 300;
 
+    private Controller controller;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -20,24 +22,24 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         int M = 20;
         String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset-" + M + ".txt";
-        int[] HIDDEN_LAYERS = new int[]{2, 3, 2};
+        int[] HIDDEN_LAYERS = new int[]{40, 40, 20};
 
-        final DataProcessor algorithm = new DataProcessor(M, HIDDEN_LAYERS, DATASET_PATH);
+        controller = new Controller(M, HIDDEN_LAYERS, DATASET_PATH);
 
         primaryStage.setTitle("Greek alphabet classifier");
         Group root = new Group();
-        root.getChildren().add(createCanvas(algorithm));
+        root.getChildren().add(createCanvas());
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-    private Canvas createCanvas(DataProcessor algorithm) {
+    private Canvas createCanvas() {
         Canvas canvas = new Canvas(width, height);
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
-                    algorithm.addToPath(event.getX(), event.getY());
+                    controller.newPoint(event.getX(), event.getY());
 
                     gc.clearRect(0, 0, width, height);
                     gc.beginPath();
@@ -47,16 +49,13 @@ public class Main extends Application {
 
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 event -> {
-                    algorithm.addToPath(event.getX(), event.getY());
+                    controller.newPoint(event.getX(), event.getY());
 
                     gc.lineTo(event.getX(), event.getY());
                     gc.stroke();
                 });
 
-        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                event -> {
-                    algorithm.predict();
-                });
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> controller.mouseReleased());
 
         return canvas;
     }
