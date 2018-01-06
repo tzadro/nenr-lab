@@ -1,20 +1,36 @@
 package hr.fer.tzadro.nenr.lab6;
 
-public class WeightedAverage {
-    private double numerator = 0;
-    private double denominator = 0;
+import java.util.stream.IntStream;
 
-    public double output() {
-        return numerator / denominator;
+public class WeightedAverage {
+    private double[] numerator;
+    private double[] denominator;
+
+    public double[] output() {
+        return IntStream.range(0, numerator.length).mapToDouble(i -> numerator[i] / denominator[i]).toArray();
     }
 
-    public void accept(IWeightedValue r) {
-        numerator += r.getWeight() * r.getValue();
-        denominator += r.getWeight();
+    public void accept(IWeightedValue[] r) {
+        if (numerator == null) {
+            numerator = new double[r.length];
+            denominator = new double[r.length];
+        }
+
+        IntStream.range(0, r.length).forEach(i -> {
+            numerator[i] += r[i].getWeight() * r[i].getValue();
+            denominator[i] += r[i].getWeight();
+        });
     }
 
     public void combine(WeightedAverage other) {
-        numerator += other.numerator;
-        denominator += other.denominator;
+        if (numerator == null) {
+            numerator = new double[other.numerator.length];
+            denominator = new double[other.numerator.length];
+        }
+
+        IntStream.range(0, other.numerator.length).forEach(i -> {
+            numerator[i] += other.numerator[i];
+            denominator[i] += other.denominator[i];
+        });
     }
 }

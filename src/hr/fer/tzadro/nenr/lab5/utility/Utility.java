@@ -188,6 +188,12 @@ public class Utility {
         return result;
     }
 
+    public static double[] div(double[] m, double k) {
+        return IntStream.range(0, m.length)
+                        .mapToDouble(i -> m[i] / k)
+                        .toArray();
+    }
+
     private static double[][] expand(double[] m, int row) {
         int col = m.length;
         double[][] expanded = new double[row][col];
@@ -206,6 +212,12 @@ public class Utility {
                                                 .mapToDouble(j -> m[i][j] * m[i][j])
                                                 .toArray()
                         ).toArray(double[][]::new);
+    }
+
+    public static double[] square(double[] m) {
+        return IntStream.range(0, m.length)
+                        .mapToDouble(i -> m[i] * m[i])
+                        .toArray();
     }
 
     public static int argmax(double[] array) {

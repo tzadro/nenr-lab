@@ -67,7 +67,7 @@ public class NeuralNetworkAlgorithm {
 
             out = Utility.div(Utility.diff(out, Y_batch), out.length);
             for (int j = layers.size() - 1; j >= 0; j--) {
-                out = layers.get(j).backward(out, learningRate);
+                out = layers.get(j).backward(out, learningRate); // todo: wrong?
             }
         }
     }
