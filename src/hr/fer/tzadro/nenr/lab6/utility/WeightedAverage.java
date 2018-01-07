@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab6;
+package hr.fer.tzadro.nenr.lab6.utility;
 
 import java.util.stream.IntStream;
 
@@ -7,7 +7,9 @@ public class WeightedAverage {
     private double[] denominator;
 
     public double[] output() {
-        return IntStream.range(0, numerator.length).mapToDouble(i -> numerator[i] / denominator[i]).toArray();
+        return IntStream.range(0, numerator.length)
+                        .mapToDouble(i -> numerator[i] / denominator[i])
+                        .toArray();
     }
 
     public double[] weightSum() {

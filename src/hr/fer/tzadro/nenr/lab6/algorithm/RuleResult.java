@@ -1,4 +1,6 @@
-package hr.fer.tzadro.nenr.lab6;
+package hr.fer.tzadro.nenr.lab6.algorithm;
+
+import hr.fer.tzadro.nenr.lab6.utility.IWeightedValue;
 
 public class RuleResult implements IWeightedValue {
     public double pi;

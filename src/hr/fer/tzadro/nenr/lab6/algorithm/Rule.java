@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab6;
+package hr.fer.tzadro.nenr.lab6.algorithm;
 
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
 import hr.fer.tzadro.nenr.lab5.utility.Utility;
@@ -10,10 +10,11 @@ public class Rule {
     private double a, b, c, d, p, q, r;
     private IBinaryFunction tNorm;
 
-    public double[] xCache;
-    public double[] yCache;
-    public double[] alpha;
-    public double[] beta;
+    private double[] xCache;
+    private double[] yCache;
+    private double[] alpha;
+    private double[] beta;
+
     public double[] pi;
     public double[] z;
 
@@ -55,24 +56,38 @@ public class Rule {
         double[] gradB = Utility.mul(gradPi, alpha);
 
         double[] grada = Utility.mul(gradA, Utility.mul(b, Utility.mul(alpha, Utility.diff(1, alpha))));
-        a -= learningRate * Arrays.stream(grada).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad a error."));
+        a -= learningRate * Arrays.stream(grada)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad a error."));
 
         double[] gradb = Utility.mul(gradA, Utility.mul(Utility.diff(a, xCache), Utility.mul(alpha, Utility.diff(1, alpha))));
-        b -= learningRate * Arrays.stream(gradb).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad b error."));
+        b -= learningRate * Arrays.stream(gradb)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad b error."));
 
         double[] gradc = Utility.mul(gradB, Utility.mul(d, Utility.mul(beta, Utility.diff(1, beta))));
-        c -= learningRate * Arrays.stream(gradc).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad c error."));
+        c -= learningRate * Arrays.stream(gradc)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad c error."));
 
         double[] gradd = Utility.mul(gradB, Utility.mul(Utility.diff(c, yCache), Utility.mul(beta, Utility.diff(1, beta))));
-        d -= learningRate * Arrays.stream(gradd).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad d error."));
+        d -= learningRate * Arrays.stream(gradd)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad d error."));
 
         double[] gradp = Utility.mul(gradZ, xCache);
-        p -= learningRate * Arrays.stream(gradp).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad p error."));
+        p -= learningRate * Arrays.stream(gradp)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad p error."));
 
         double[] gradq = Utility.mul(gradZ, yCache);
-        q -= learningRate * Arrays.stream(gradq).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad q error."));
+        q -= learningRate * Arrays.stream(gradq)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad q error."));
 
         double[] gradr = gradZ;
-        r -= learningRate * Arrays.stream(gradr).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad r error."));
+        r -= learningRate * Arrays.stream(gradr)
+                                  .average()
+                                  .orElseThrow(() -> new IllegalArgumentException("Backprop grad r error."));
     }
 }

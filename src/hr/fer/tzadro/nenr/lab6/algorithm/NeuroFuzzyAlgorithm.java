@@ -1,8 +1,9 @@
-package hr.fer.tzadro.nenr.lab6;
+package hr.fer.tzadro.nenr.lab6.algorithm;
 
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
 import hr.fer.tzadro.nenr.lab5.utility.Utility;
 import hr.fer.tzadro.nenr.lab6.data.Example;
+import hr.fer.tzadro.nenr.lab6.utility.WeightedAverage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ public class NeuroFuzzyAlgorithm {
         double[] Y = data.stream().mapToDouble(e -> e.y).toArray();
         double[] Z_ = data.stream().mapToDouble(e -> e.z).toArray();
 
-        for (int i = 0; i < numIterations; i++) {
+        for (int i = 1; i <= numIterations; i++) {
             WeightedAverage combiner = rules.stream()
                                             .map(rule -> rule.forward(X, Y))
                                             .collect(WeightedAverage::new, WeightedAverage::accept, WeightedAverage::combine);
@@ -32,24 +33,29 @@ public class NeuroFuzzyAlgorithm {
             double[] weightSum = combiner.weightSum();
 
             double[] error = Utility.mul(0.5, Utility.square(Utility.diff(Z_, out)));
-            System.out.println(Arrays.stream(error)
-                                     .average()
-                                     .orElseThrow(() -> new IllegalArgumentException("Error average error.")));
+            if (i % 500 == 0 || i == 1) {
+                System.out.println(i + ": " + Arrays.stream(error)
+                                                    .average()
+                                                    .orElseThrow(() -> new IllegalArgumentException("Error average error.")));
+            }
 
-            double[] gradError = Utility.diff(out, Z_); // todo: wrong?
+            double[] errorGradOut = Utility.diff(out, Z_);
             rules.stream()
                  .forEach(rule -> {
-                     double[] gradPi = new double[X.length];
+                     double[] outGradPi = new double[X.length];
 
                      for (Rule otherRule : rules) {
-                         gradPi = Utility.sum(gradPi, Utility.mul(otherRule.pi, Utility.diff(rule.z, otherRule.z)));
+                         outGradPi = Utility.sum(outGradPi, Utility.mul(otherRule.pi, Utility.diff(rule.z, otherRule.z)));
                      }
 
-                     gradPi = Utility.div(gradPi, Utility.square(weightSum));
+                     outGradPi = Utility.div(outGradPi, Utility.square(weightSum));
 
-                     double[] gradZ = Utility.div(rule.pi, weightSum);
+                     double[] outGradZ = Utility.div(rule.pi, weightSum);
 
-                     rule.backward(Utility.mul(gradError, gradPi), Utility.mul(gradError, gradZ), learningRate);
+                     double[] errorGradPi = Utility.mul(errorGradOut, outGradPi);
+                     double[] errorGradZ = Utility.mul(errorGradOut, outGradZ);
+
+                     rule.backward(errorGradPi, errorGradZ, learningRate);
                  });
         }
     }

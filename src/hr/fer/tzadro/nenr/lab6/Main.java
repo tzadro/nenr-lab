@@ -2,6 +2,7 @@ package hr.fer.tzadro.nenr.lab6;
 
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
 import hr.fer.tzadro.nenr.lab1.zad3.Operations;
+import hr.fer.tzadro.nenr.lab6.algorithm.NeuroFuzzyAlgorithm;
 import hr.fer.tzadro.nenr.lab6.data.Data;
 import hr.fer.tzadro.nenr.lab6.data.Example;
 

@@ -1,4 +1,4 @@
-package hr.fer.tzadro.nenr.lab6;
+package hr.fer.tzadro.nenr.lab6.algorithm;
 
 public class MembershipFunction {
 
