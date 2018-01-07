@@ -1,7 +1,6 @@
 package hr.fer.tzadro.nenr.lab5.utility;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Utility {

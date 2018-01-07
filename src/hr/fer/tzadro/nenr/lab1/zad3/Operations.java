@@ -6,8 +6,6 @@ import hr.fer.tzadro.nenr.lab1.zad1.IDomain;
 import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.MutableFuzzySet;
 
-import java.util.Arrays;
-
 public class Operations {
 
     public static IFuzzySet unaryOperation(IFuzzySet set, IUnaryFunction function) {

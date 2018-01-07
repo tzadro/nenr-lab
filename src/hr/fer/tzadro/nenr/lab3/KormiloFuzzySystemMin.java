@@ -9,8 +9,6 @@ import hr.fer.tzadro.nenr.lab1.zad2.IFuzzySet;
 import hr.fer.tzadro.nenr.lab1.zad2.StandardFuzzySets;
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class KormiloFuzzySystemMin implements IFuzzySystem {

@@ -1,7 +1,6 @@
 package hr.fer.tzadro.nenr.lab4;
 
 import hr.fer.tzadro.nenr.lab4.algorithm.GenerationalGeneticAlgorithm;
-import hr.fer.tzadro.nenr.lab4.algorithm.SteadyStateGeneticAlgorithm;
 import hr.fer.tzadro.nenr.lab4.algorithm.GeneticAlgorithm;
 
 import java.io.IOException;

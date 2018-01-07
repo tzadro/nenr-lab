@@ -3,7 +3,6 @@ package hr.fer.tzadro.nenr.lab1.zad1;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public abstract class Domain implements IDomain {
 

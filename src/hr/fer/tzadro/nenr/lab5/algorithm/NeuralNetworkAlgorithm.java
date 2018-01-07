@@ -1,8 +1,8 @@
 package hr.fer.tzadro.nenr.lab5.algorithm;
 
-import hr.fer.tzadro.nenr.lab5.utility.Utility;
 import hr.fer.tzadro.nenr.lab5.data.Coordinate;
 import hr.fer.tzadro.nenr.lab5.data.Example;
+import hr.fer.tzadro.nenr.lab5.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.Arrays;
