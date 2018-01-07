@@ -129,12 +129,6 @@ public class Utility {
                         .toArray();
     }
 
-    public static double[] diff(double[] m, double k) {
-        return IntStream.range(0, m.length)
-                        .mapToDouble(i -> m[i] - k)
-                        .toArray();
-    }
-
     public static double[][] mul(double k, double[][] m) {
         int row = m.length;
         int col = m[0].length;

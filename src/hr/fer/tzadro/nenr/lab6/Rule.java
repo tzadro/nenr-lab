@@ -57,13 +57,13 @@ public class Rule {
         double[] grada = Utility.mul(gradA, Utility.mul(b, Utility.mul(alpha, Utility.diff(1, alpha))));
         a -= learningRate * Arrays.stream(grada).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad a error."));
 
-        double[] gradb = Utility.mul(gradA, Utility.mul(Utility.diff(xCache, a), Utility.mul(alpha, Utility.diff(1, alpha))));
+        double[] gradb = Utility.mul(gradA, Utility.mul(Utility.diff(a, xCache), Utility.mul(alpha, Utility.diff(1, alpha))));
         b -= learningRate * Arrays.stream(gradb).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad b error."));
 
         double[] gradc = Utility.mul(gradB, Utility.mul(d, Utility.mul(beta, Utility.diff(1, beta))));
         c -= learningRate * Arrays.stream(gradc).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad c error."));
 
-        double[] gradd = Utility.mul(gradB, Utility.mul(Utility.diff(xCache, c), Utility.mul(beta, Utility.diff(1, beta))));
+        double[] gradd = Utility.mul(gradB, Utility.mul(Utility.diff(c, yCache), Utility.mul(beta, Utility.diff(1, beta))));
         d -= learningRate * Arrays.stream(gradd).average().orElseThrow(() -> new IllegalArgumentException("Backprop grad d error."));
 
         double[] gradp = Utility.mul(gradZ, xCache);

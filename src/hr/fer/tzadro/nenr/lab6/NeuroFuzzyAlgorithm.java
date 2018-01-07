@@ -29,7 +29,6 @@ public class NeuroFuzzyAlgorithm {
                                             .collect(WeightedAverage::new, WeightedAverage::accept, WeightedAverage::combine);
 
             double[] out = combiner.output();
-            //System.out.println("out: " + out[0]);
             double[] weightSum = combiner.weightSum();
 
             double[] error = Utility.mul(0.5, Utility.square(Utility.diff(Z_, out)));
@@ -38,8 +37,6 @@ public class NeuroFuzzyAlgorithm {
                                      .orElseThrow(() -> new IllegalArgumentException("Error average error.")));
 
             double[] gradError = Utility.diff(out, Z_); // todo: wrong?
-            //System.out.println("Z_: " + Z_[0]);
-            //System.out.println("gradError: " + gradError[0]);
             rules.stream()
                  .forEach(rule -> {
                      double[] gradPi = new double[X.length];
@@ -52,8 +49,6 @@ public class NeuroFuzzyAlgorithm {
 
                      double[] gradZ = Utility.div(rule.pi, weightSum);
 
-                     //System.out.println("gradPi: " + gradPi[0]);
-                     //System.out.println("gradZ: " + gradZ[0]);
                      rule.backward(Utility.mul(gradError, gradPi), Utility.mul(gradError, gradZ), learningRate);
                  });
         }

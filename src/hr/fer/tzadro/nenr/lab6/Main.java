@@ -10,8 +10,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        int NUM_RULES = 6, NUM_ITERATIONS = 10000;
-        double LEARNING_RATE = 0.02;
+        int NUM_RULES = 8, NUM_ITERATIONS = 10000;
+        double LEARNING_RATE = 0.015;
         IBinaryFunction tNorm = Operations.product();
 
         NeuroFuzzyAlgorithm algorithm = new NeuroFuzzyAlgorithm(NUM_RULES, tNorm);
