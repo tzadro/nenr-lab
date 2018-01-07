@@ -10,6 +10,10 @@ public class WeightedAverage {
         return IntStream.range(0, numerator.length).mapToDouble(i -> numerator[i] / denominator[i]).toArray();
     }
 
+    public double[] weightSum() {
+        return denominator;
+    }
+
     public void accept(IWeightedValue[] r) {
         if (numerator == null) {
             numerator = new double[r.length];

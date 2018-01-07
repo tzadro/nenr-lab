@@ -123,6 +123,18 @@ public class Utility {
         return result;
     }
 
+    public static double[] diff(double k, double[] m) {
+        return IntStream.range(0, m.length)
+                        .mapToDouble(i -> k - m[i])
+                        .toArray();
+    }
+
+    public static double[] diff(double[] m, double k) {
+        return IntStream.range(0, m.length)
+                        .mapToDouble(i -> m[i] - k)
+                        .toArray();
+    }
+
     public static double[][] mul(double k, double[][] m) {
         int row = m.length;
         int col = m[0].length;
@@ -191,6 +203,12 @@ public class Utility {
     public static double[] div(double[] m, double k) {
         return IntStream.range(0, m.length)
                         .mapToDouble(i -> m[i] / k)
+                        .toArray();
+    }
+
+    public static double[] div(double[] m1, double[] m2) {
+        return IntStream.range(0, m1.length)
+                        .mapToDouble(i -> m1[i] / m2[i])
                         .toArray();
     }
 
