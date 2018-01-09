@@ -23,7 +23,7 @@ public class Main extends Application {
         int M = 100, NUM_ITERATIONS = 10000;
         double LEARNING_RATE = 0.1;
         String DATASET_PATH = "./materijali/zad5-datasets/zad5-dataset-" + M + ".txt";
-        int[] HIDDEN_LAYERS = new int[]{50, 60, 30};
+        int[] HIDDEN_LAYERS = new int[]{10};
         boolean MINIBATCH = true;
         Integer MINIBATCH_SIZE = 20;
 

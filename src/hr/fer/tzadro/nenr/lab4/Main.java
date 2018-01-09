@@ -15,8 +15,8 @@ public class Main {
 
     public static void main(String[] args) {
         String DATASET_PATH = "./materijali/zad4-datasets/zad4-dataset1.txt";
-        int POPULATION_SIZE = 200, NUM_OF_ITERATIONS = 10000;
-        double MUTATION_PROBABILITY = 0.1;
+        int POPULATION_SIZE = 50, NUM_OF_ITERATIONS = 4000;
+        double MUTATION_PROBABILITY = 0.01;
         boolean PRESERVE_BEST = true;
 
         List<Measurement> measurements;
