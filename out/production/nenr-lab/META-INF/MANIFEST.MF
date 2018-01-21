@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: hr.fer.tzadro.nenr.lab3.Main
+Main-Class: hr.fer.tzadro.nenr.lab7.Main
 

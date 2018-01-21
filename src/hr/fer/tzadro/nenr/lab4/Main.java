@@ -23,7 +23,7 @@ public class Main {
         try (Stream<String> stream = Files.lines(Paths.get(DATASET_PATH))) {
             measurements = stream.map(Measurement::new).collect(Collectors.toList());
         } catch (IOException ioe) {
-            throw new IllegalArgumentException("Could not load file.");
+            throw new IllegalArgumentException("Could not load file");
         }
 
         GeneticAlgorithm algorithm = new GenerationalGeneticAlgorithm(POPULATION_SIZE, MUTATION_PROBABILITY);

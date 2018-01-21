@@ -1,5 +1,7 @@
 package hr.fer.tzadro.nenr.lab4;
 
+import hr.fer.tzadro.nenr.lab7.IIndividual;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -7,7 +9,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Individual implements Comparable<Individual> {
+public class Individual implements IIndividual, Comparable<Individual> {
     private static final int numOfElements = 5;
     private static final double lowerBound = -4;
     private static final double upperBound = 4;
@@ -39,6 +41,7 @@ public class Individual implements Comparable<Individual> {
         return gene;
     }
 
+    @Override
     public double getFitness() {
         return fitness;
     }

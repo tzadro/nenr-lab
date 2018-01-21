@@ -20,6 +20,11 @@ public class Utility {
                      ).toArray(double[][]::new);
     }
 
+    // https://stackoverflow.com/questions/34774384/multiply-2-double-matrices-using-streams
+    public static double[][] matmul(double[] m1, double[][] m2) {
+        return matmul(new double[][]{m1}, m2);
+    }
+
     // http://chronicles.blog.ryanrampersad.com/2009/02/sigmoid-function-in-java/
     public static double sigmoid(double x) {
         return (1 / (1 + Math.pow(Math.E, -x)));
@@ -107,6 +112,16 @@ public class Utility {
                  .forEach(i -> result[i] = m1[i] - m2[i]);
 
         return result;
+    }
+
+    public static double[] diff(int[] m1, double[] m2) {
+        return diff(toDoubles(m1), m2);
+    }
+
+    public static double[] toDoubles(int[] a) {
+        return Arrays.stream(a)
+                     .mapToDouble(e -> e)
+                     .toArray();
     }
 
     public static double[][] diff(double k, double[][] m) {
@@ -248,6 +263,10 @@ public class Utility {
         return maxIndex;
     }
 
+    public static int argmax(int[] array) {
+        return argmax(toDoubles(array));
+    }
+
     public static double[][] random(int row, int col) {
         double[][] result = new double[row][col];
 
@@ -256,5 +275,11 @@ public class Utility {
                                         .forEach(j -> result[i][j] = Math.random() * 2 - 1));
 
         return result;
+    }
+
+    public static double[] abs(double[] array) {
+        return Arrays.stream(array)
+                     .map(e -> Math.abs(e))
+                     .toArray();
     }
 }

@@ -16,7 +16,7 @@ public class SteadyStateGeneticAlgorithm extends GeneticAlgorithm {
 
     @Override
     public Individual run(List<Measurement> measurements, int numOfIterations, boolean preserveBest) {
-        Population population = new Population(populationSize, SelectionOperators.randomSelectionOperator());
+        Population population = new Population(populationSize, SelectionOperators.<Individual>randomSelectionOperator());
         Individual bestIndividual = calculateGenerationFitness(0, measurements, population, null);
 
         for (int i = 1; i <= numOfIterations; i++) {

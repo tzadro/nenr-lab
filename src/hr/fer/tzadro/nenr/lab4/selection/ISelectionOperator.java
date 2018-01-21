@@ -1,11 +1,12 @@
 package hr.fer.tzadro.nenr.lab4.selection;
 
 import hr.fer.tzadro.nenr.lab4.Individual;
+import hr.fer.tzadro.nenr.lab7.IIndividual;
 
 import java.util.List;
 
-public interface ISelectionOperator {
-    Individual selectIndividual(List<Individual> individuals, boolean preserveBest, Individual bestIndividual);
+public interface ISelectionOperator<T extends IIndividual> {
+    T selectIndividual(List<T> individuals, boolean preserveBest, T bestIndividual);
 
-    List<Individual> selectIndividuals(List<Individual> individuals, int n, boolean preserveBest, Individual bestIndividual);
+    List<T> selectIndividuals(List<T> individuals, int n, boolean preserveBest, T bestIndividual);
 }

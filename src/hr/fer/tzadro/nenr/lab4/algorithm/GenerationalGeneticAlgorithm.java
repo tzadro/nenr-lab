@@ -15,11 +15,11 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
 
     @Override
     public Individual run(List<Measurement> measurements, int numOfIterations, boolean preserveBest) {
-        Population population = new Population(populationSize, SelectionOperators.rouletteWheelSelectionOperator());
+        Population population = new Population(populationSize, SelectionOperators.<Individual>rouletteWheelSelectionOperator());
         Individual bestIndividual = calculateGenerationFitness(0, measurements, population, null);
 
         for (int i = 1; i <= numOfIterations; i++) {
-            Population newPopulation = new Population(SelectionOperators.rouletteWheelSelectionOperator());
+            Population newPopulation = new Population(SelectionOperators.<Individual>rouletteWheelSelectionOperator());
 
             if (preserveBest)
                 newPopulation.add(bestIndividual);
