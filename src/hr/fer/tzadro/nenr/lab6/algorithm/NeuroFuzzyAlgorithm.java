@@ -6,8 +6,10 @@ import hr.fer.tzadro.nenr.lab6.data.Example;
 import hr.fer.tzadro.nenr.lab6.utility.WeightedAverage;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -21,7 +23,9 @@ public class NeuroFuzzyAlgorithm {
                       .collect(Collectors.toList());
     }
 
-    public void train(List<Example> data, int numIterations, double learningRate) {
+    public List<Double> train(List<Example> data, int numIterations, double learningRate) {
+        List<Double> errors = new ArrayList<>();
+
         double[] X = data.stream().mapToDouble(e -> e.x).toArray();
         double[] Y = data.stream().mapToDouble(e -> e.y).toArray();
         double[] Z_ = data.stream().mapToDouble(e -> e.z).toArray();
@@ -35,11 +39,14 @@ public class NeuroFuzzyAlgorithm {
             double[] weightSum = combiner.weightSum();
 
             double[] error = Utility.mul(0.5, Utility.square(Utility.diff(Z_, out)));
-            if (i % 500 == 0 || i == 1) {
-                System.out.println(i + ": " + Arrays.stream(error)
-                                                    .average()
-                                                    .orElseThrow(() -> new IllegalArgumentException("Error average error.")));
-            }
+            double error_avg = Arrays.stream(error)
+                                     .average()
+                                     .orElseThrow(() -> new IllegalArgumentException("Error average error."));
+
+            errors.add(error_avg);
+
+            if (i % 500 == 0 || i == 1)
+                System.out.println(String.format(Locale.US, "Iteration: %5d, error: %.4f", i, error_avg));
 
             double[] errorGradOut = Utility.diff(out, Z_);
             rules.stream()
@@ -60,6 +67,8 @@ public class NeuroFuzzyAlgorithm {
                      rule.backward(errorGradPi, errorGradZ, learningRate);
                  });
         }
+
+        return errors;
     }
 
     public double forward(double x, double y) {
