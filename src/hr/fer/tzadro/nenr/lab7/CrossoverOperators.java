@@ -7,9 +7,9 @@ public class CrossoverOperators {
 
     public static Individual randomCrossover(Individual parent1, Individual parent2) {
         Random random = new Random();
-        if (random.nextDouble() < 1./3) {
+        if (random.nextDouble() < 1. / 3) {
             return meanCrossover(parent1, parent2);
-        } else if (random.nextDouble() < 1./2) {
+        } else if (random.nextDouble() < 1. / 2) {
             return uniformCrossover(parent1, parent2);
         } else {
             return gaussianCrossover(parent1, parent2);

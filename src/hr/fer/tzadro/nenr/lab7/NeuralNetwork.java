@@ -87,7 +87,7 @@ public class NeuralNetwork {
         return 1 / (1 + Arrays.stream(Utility.div(Utility.abs(Utility.diff(x, w)), Utility.abs(s))).sum());
     }
 
-    private double[] typeTwoNeuron(double[] x, double[][] w, double [] b) {
+    private double[] typeTwoNeuron(double[] x, double[][] w, double[] b) {
         return Utility.sigmoid(Utility.sum(Utility.matmul(x, w), b))[0];
     }
 }

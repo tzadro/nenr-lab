@@ -18,7 +18,7 @@ public class Population {
     }
 
     public Individual selectIndividual() {
-        return (Individual)selector.selectIndividual(individuals, false, null);
+        return (Individual) selector.selectIndividual(individuals, false, null);
     }
 
     public List<Individual> selectIndividuals(int n) {

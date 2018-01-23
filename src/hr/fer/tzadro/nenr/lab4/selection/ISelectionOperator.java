@@ -1,6 +1,5 @@
 package hr.fer.tzadro.nenr.lab4.selection;
 
-import hr.fer.tzadro.nenr.lab4.Individual;
 import hr.fer.tzadro.nenr.lab7.IIndividual;
 
 import java.util.List;

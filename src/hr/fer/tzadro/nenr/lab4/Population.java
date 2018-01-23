@@ -36,7 +36,7 @@ public class Population {
     }
 
     public Individual selectIndividual(boolean preserveBest) {
-        return (Individual)selector.selectIndividual(individuals, preserveBest, bestIndividual);
+        return (Individual) selector.selectIndividual(individuals, preserveBest, bestIndividual);
     }
 
     public List<Individual> selectIndividuals(int n, boolean preserveBest) {
