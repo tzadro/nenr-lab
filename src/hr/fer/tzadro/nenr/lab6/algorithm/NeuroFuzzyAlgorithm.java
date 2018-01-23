@@ -5,9 +5,11 @@ import hr.fer.tzadro.nenr.lab5.utility.Utility;
 import hr.fer.tzadro.nenr.lab6.data.Example;
 import hr.fer.tzadro.nenr.lab6.utility.WeightedAverage;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class NeuroFuzzyAlgorithm {
@@ -68,5 +70,21 @@ public class NeuroFuzzyAlgorithm {
                     .map(rule -> rule.forward(X, Y))
                     .collect(WeightedAverage::new, WeightedAverage::accept, WeightedAverage::combine)
                     .output()[0];
+    }
+
+    public void writeMembershipFunctions(PrintWriter writer) {
+        int numPoints = 1000;
+        double step = 1. / numPoints;
+
+        double[] xs = IntStream.rangeClosed(0, numPoints)
+                              .mapToDouble(i -> i * step)
+                              .toArray();
+
+        writer.println(Arrays.stream(xs)
+                             .mapToObj(x -> Double.toString(x))
+                             .collect(Collectors.joining(",")));
+
+        for (Rule rule : rules)
+            rule.writeMembershipFunctions(writer, xs);
     }
 }

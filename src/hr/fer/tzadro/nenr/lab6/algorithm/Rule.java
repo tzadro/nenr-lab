@@ -3,7 +3,9 @@ package hr.fer.tzadro.nenr.lab6.algorithm;
 import hr.fer.tzadro.nenr.lab1.zad3.IBinaryFunction;
 import hr.fer.tzadro.nenr.lab5.utility.Utility;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Rule {
@@ -89,5 +91,15 @@ public class Rule {
         r -= learningRate * Arrays.stream(gradr)
                                   .average()
                                   .orElseThrow(() -> new IllegalArgumentException("Backprop grad r error."));
+    }
+
+    public void writeMembershipFunctions(PrintWriter writer, double[] xs) {
+        writer.println(Arrays.stream(xs)
+                             .mapToObj(x -> Double.toString(MembershipFunction.valueFor(x, a, b)))
+                             .collect(Collectors.joining(",")));
+
+        writer.println(Arrays.stream(xs)
+                             .mapToObj(x -> Double.toString(MembershipFunction.valueFor(x, c, d)))
+                             .collect(Collectors.joining(",")));
     }
 }
