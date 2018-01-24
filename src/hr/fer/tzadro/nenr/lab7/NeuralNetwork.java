@@ -21,7 +21,7 @@ public class NeuralNetwork {
                            .sum();
         numTypeOneParams = layers[0] * layers[1] * 2;
         numTypeTwoParams = IntStream.range(2, layers.length)
-                                    .map(i -> layers[i - 1] * (layers[i] + 1))
+                                    .map(i -> (layers[i - 1] + 1) * layers[i])
                                     .sum();
         numParams = numTypeOneParams + numTypeTwoParams;
 

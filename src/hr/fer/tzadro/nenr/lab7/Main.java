@@ -5,7 +5,9 @@ import hr.fer.tzadro.nenr.lab5.utility.Utility;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,10 +19,10 @@ public class Main {
         int numOutputs = 3;
         List<Example> data = loadDataset(datasetPath, numInputs, numOutputs);
 
-        int[] layers = new int[]{numInputs, 8, numOutputs};
+        int[] layers = new int[]{numInputs, 8, 4, numOutputs};
         NeuralNetwork neuralNetwork = new NeuralNetwork(layers);
-        
-        int popSize = 20;
+
+        int popSize = 30;
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(popSize, neuralNetwork);
 
         int numIter = 10000;
@@ -30,6 +32,9 @@ public class Main {
         double sigma2 = 0.5;
         double mutationProb = 0.05;
         double[] params = geneticAlgorithm.run(data, numIter, verbose, v1, sigma1, sigma2, mutationProb);
+        System.out.println("Best params: (" + Arrays.stream(params)
+                                                    .mapToObj(e -> String.format(Locale.US, "%.2f", e))
+                                                    .collect(Collectors.joining(", ")) + ")");
 
         int correct = 0;
         int incorrect = 0;
