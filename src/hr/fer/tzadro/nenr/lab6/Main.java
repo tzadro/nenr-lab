@@ -14,20 +14,44 @@ import java.util.stream.IntStream;
 public class Main {
 
     public static void main(String[] args) {
-        String MEMBERSHIP_FUNCTIONS_OUTPUT = "./materijali/zad6-outputs/membership-functions.txt";
-        String TEST_ERROR_OUTPUT = "./materijali/zad6-outputs/test-error.txt";
-        String TRAIN_ERRORS_OUTPUT = "./materijali/zad6-outputs/train-errors.txt";
+        String OUTPUT_FOLDER = "./materijali/zad6-outputs/";
         int NUM_RULES = 8, NUM_ITERATIONS = 10000;
         double LEARNING_RATE = 0.015;
         IBinaryFunction tNorm = Operations.product();
 
-        NeuroFuzzyAlgorithm algorithm = new NeuroFuzzyAlgorithm(NUM_RULES, tNorm);
+        NeuroFuzzyAlgorithm algorithm;
         List<Example> data = Data.getTrainingData();
-        List<Double> trainErrors = algorithm.train(data, NUM_ITERATIONS, LEARNING_RATE);
+        List<Double> trainErrors;
 
-        writeMembershipFunctions(MEMBERSHIP_FUNCTIONS_OUTPUT, algorithm);
-        writeTestError(TEST_ERROR_OUTPUT, algorithm, data);
-        writeTrainErrors(TRAIN_ERRORS_OUTPUT, trainErrors, NUM_ITERATIONS);
+        algorithm = new NeuroFuzzyAlgorithm(NUM_RULES, tNorm);
+        trainErrors = algorithm.train(data, NUM_ITERATIONS, LEARNING_RATE, true);
+        writeMembershipFunctions(OUTPUT_FOLDER + "batch-membership-functions.txt", algorithm);
+        writeTestError(OUTPUT_FOLDER + "batch-test-error.txt", algorithm, data);
+        writeTrainErrors(OUTPUT_FOLDER + "batch-train-errors.txt", trainErrors, NUM_ITERATIONS);
+
+        algorithm = new NeuroFuzzyAlgorithm(NUM_RULES, tNorm);
+        trainErrors = algorithm.train(data, NUM_ITERATIONS, LEARNING_RATE, false);
+        writeMembershipFunctions(OUTPUT_FOLDER + "online-membership-functions.txt", algorithm);
+        writeTestError(OUTPUT_FOLDER + "online-test-error.txt", algorithm, data);
+        writeTrainErrors(OUTPUT_FOLDER + "online-train-errors.txt", trainErrors, NUM_ITERATIONS);
+
+        double lowLearningRate = 0.001, midLearningRate = 0.02, highLearningRate = 0.2;
+        trainBothFor(NUM_RULES, tNorm, data, NUM_ITERATIONS, lowLearningRate, "low", OUTPUT_FOLDER);
+        trainBothFor(NUM_RULES, tNorm, data, NUM_ITERATIONS, midLearningRate, "mid", OUTPUT_FOLDER);
+        trainBothFor(NUM_RULES, tNorm, data, NUM_ITERATIONS, highLearningRate, "high", OUTPUT_FOLDER);
+    }
+
+    private static void trainBothFor(int numRules, IBinaryFunction tNorm, List<Example> data, int numIterations, double learningRate, String prefix, String outputFolder) {
+        NeuroFuzzyAlgorithm algorithm;
+        List<Double> trainErrors;
+
+        algorithm = new NeuroFuzzyAlgorithm(numRules, tNorm);
+        trainErrors = algorithm.train(data, numIterations, learningRate, true);
+        writeTrainErrors(outputFolder + prefix + "-batch-train-errors.txt", trainErrors, numIterations);
+
+        algorithm = new NeuroFuzzyAlgorithm(numRules, tNorm);
+        trainErrors = algorithm.train(data, numIterations, learningRate, false);
+        writeTrainErrors(outputFolder + prefix + "-online-train-errors.txt", trainErrors, numIterations);
     }
 
     private static void writeMembershipFunctions(String path, NeuroFuzzyAlgorithm algorithm) {

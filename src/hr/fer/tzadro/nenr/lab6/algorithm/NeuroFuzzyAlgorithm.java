@@ -23,7 +23,7 @@ public class NeuroFuzzyAlgorithm {
                       .collect(Collectors.toList());
     }
 
-    public List<Double> train(List<Example> data, int numIterations, double learningRate) {
+    public List<Double> train(List<Example> data, int numIterations, double learningRate, boolean batch) {
         List<Double> errors = new ArrayList<>();
 
         double[] X = data.stream().mapToDouble(e -> e.x).toArray();
@@ -31,14 +31,26 @@ public class NeuroFuzzyAlgorithm {
         double[] Z_ = data.stream().mapToDouble(e -> e.z).toArray();
 
         for (int i = 1; i <= numIterations; i++) {
+            double[] x, y, z_;
+
+            if (batch) {
+                x = X;
+                y = Y;
+                z_ = Z_;
+            } else {
+                x = new double[]{X[i % X.length]};
+                y = new double[]{X[i % Y.length]};
+                z_ = new double[]{X[i % Z_.length]};
+            }
+
             WeightedAverage combiner = rules.stream()
-                                            .map(rule -> rule.forward(X, Y))
+                                            .map(rule -> rule.forward(x, y))
                                             .collect(WeightedAverage::new, WeightedAverage::accept, WeightedAverage::combine);
 
             double[] out = combiner.output();
             double[] weightSum = combiner.weightSum();
 
-            double[] error = Utility.mul(0.5, Utility.square(Utility.diff(Z_, out)));
+            double[] error = Utility.mul(0.5, Utility.square(Utility.diff(z_, out)));
             double error_avg = Arrays.stream(error)
                                      .average()
                                      .orElseThrow(() -> new IllegalArgumentException("Error average error."));
@@ -48,10 +60,10 @@ public class NeuroFuzzyAlgorithm {
             if (i % 500 == 0 || i == 1)
                 System.out.println(String.format(Locale.US, "Iteration: %5d, error: %.4f", i, error_avg));
 
-            double[] errorGradOut = Utility.diff(out, Z_);
+            double[] errorGradOut = Utility.diff(out, z_);
             rules.stream()
                  .forEach(rule -> {
-                     double[] outGradPi = new double[X.length];
+                     double[] outGradPi = new double[x.length];
 
                      for (Rule otherRule : rules) {
                          outGradPi = Utility.sum(outGradPi, Utility.mul(otherRule.pi, Utility.diff(rule.z, otherRule.z)));
