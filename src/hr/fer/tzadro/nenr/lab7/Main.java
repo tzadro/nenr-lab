@@ -17,14 +17,14 @@ public class Main {
         int numOutputs = 3;
         List<Example> data = loadDataset(datasetPath, numInputs, numOutputs);
 
-        int[] layers = new int[]{numInputs, 8, 4, numOutputs};
+        int[] layers = new int[]{numInputs, 8, numOutputs};
         NeuralNetwork neuralNetwork = new NeuralNetwork(layers);
-
-        int popSize = 10;
+        
+        int popSize = 20;
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(popSize, neuralNetwork);
 
         int numIter = 10000;
-        boolean verbose = false;
+        boolean verbose = true;
         double v1 = 0.2;
         double sigma1 = 1.5;
         double sigma2 = 0.5;
